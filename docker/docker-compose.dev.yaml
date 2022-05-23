@@ -1,0 +1,13 @@
+version: '3.8'
+services:
+  nest_app:
+    build:
+      context: ../
+      dockerfile: ./docker/Dockerfile.dev
+    env_file:
+      - ../.env.local
+    volumes:
+      - ../:/app
+      - /app/node_modules
+    ports:
+      - '3000:3000'
