@@ -1,0 +1,17 @@
+{
+  "recommendations": [
+    "coenraads.bracket-pair-colorizer-2",
+    "ms-azuretools.vscode-docker",
+    "mikestead.dotenv",
+    "dbaeumer.vscode-eslint",
+    "eamodio.gitlens",
+    "eg2.vscode-npm-script",
+    "howardzuo.vscode-npm-dependency",
+    "esbenp.prettier-vscode",
+    "vscode-icons-team.vscode-icons",
+    "jpoissonnier.vscode-styled-components",
+    "ms-vsliveshare.vsliveshare",
+    "ms-vscode.vscode-typescript-next"
+  ],
+  "unwantedRecommendations": []
+}

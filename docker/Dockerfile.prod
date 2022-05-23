@@ -1,0 +1,42 @@
+########## install_modules_stage ##########
+FROM node:14-alpine as install_modules_stage
+
+# set working directory
+WORKDIR /app/
+# install production dependencies
+COPY package.json yarn.lock /app/
+RUN yarn install --frozen-lockfile --production
+
+########## build_stage ##########
+
+FROM install_modules_stage as build_stage
+
+# install all dependencies
+RUN yarn install --frozen-lockfile
+
+# copy all files
+COPY .eslintrc.js nest-cli.json tsconfig.json tsconfig.build.json /app/
+COPY src/ /app/src/
+
+# build the production app
+RUN yarn build
+
+########## final_stage ##########
+FROM node:14-alpine as final_stage
+
+# set working directory
+WORKDIR /app/
+
+
+# copy package.json file
+COPY --from=build_stage /app/package.json /app/
+
+# copy production deps
+COPY --from=install_modules_stage /app/node_modules/ /app/node_modules/
+
+# copy production app
+COPY --from=build_stage /app/dist/ /app/dist/
+
+EXPOSE 3000
+
+CMD [ "yarn" , "run" , "start:prod" ]
