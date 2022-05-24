@@ -11,13 +11,20 @@ import {
   Post,
   Delete,
 } from '@nestjs/common'
+import { get } from 'http'
 import { PostsService } from './posts.service'
 import { Post as PostInterface } from './interfaces/post.interface'
 import { CreatePostDto, UpdatePostDto } from './dto'
 
+import { CommentsService } from '../comments/comments.service'
+import { Comment } from '../comments/interfaces/comments.interfaces'
+
 @Controller('posts')
 export class PostsController {
-  constructor(private readonly postsService: PostsService) {}
+  constructor(
+    private readonly postsService: PostsService,
+    private readonly commentService: CommentsService,
+  ) {}
 
   @Get()
   findAllPost(): PostInterface[] {
@@ -60,4 +67,9 @@ export class PostsController {
     }
     return `deleted`
   }
+
+  // @Get(':id/comments')
+  // findCommentByPostId(@Param('id', ParseIntPipe) id: number): Comment[] {
+  //   return []
+  // }
 }
