@@ -15,9 +15,15 @@ import { PostsService } from './posts.service'
 import { Post as PostInterface } from './interfaces/post.interface'
 import { CreatePostDto, UpdatePostDto } from './dto'
 
+import { CommentsService } from '../comments/comments.service'
+import { Comment } from '../comments/interfaces/comments.interfaces'
+
 @Controller('posts')
 export class PostsController {
-  constructor(private readonly postsService: PostsService) {}
+  constructor(
+    private readonly postsService: PostsService,
+    private readonly commentService: CommentsService,
+  ) {}
 
   @Get()
   findAllPost(): PostInterface[] {
@@ -59,5 +65,11 @@ export class PostsController {
       throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST)
     }
     return `deleted`
+  }
+
+  @Get(':id/comments')
+  findCommentByPostId(@Param('id', ParseIntPipe) id: number): Comment[] {
+    const comments = this.commentService.findAll({ postId: id })
+    return comments
   }
 }

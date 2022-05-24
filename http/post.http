@@ -25,4 +25,8 @@ content-type: application/json
 }
 
 ### delete data
-DELETE   https://jsonplaceholder.typicode.com/posts/1 HTTP/1.1
+DELETE  http://localhost:3000/posts/1 HTTP/1.1
+
+###
+### find comments from postId
+GET http://localhost:3000/posts/1/comments
