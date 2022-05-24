@@ -8,7 +8,6 @@ export class PostsController {
 
   @Get()
   findAllPost(): Post[] {
-    // return this.postsService.findAll()
     return this.postsService.findAll()
   }
 
