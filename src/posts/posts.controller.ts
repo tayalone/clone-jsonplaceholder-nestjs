@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common'
 import { PostsService } from './posts.service'
 import { Post as PostInterface } from './interfaces/post.interface'
-import { CreatePostDto } from './dto'
+import { CreatePostDto, UpdatePostDto } from './dto'
 
 @Controller('posts')
 export class PostsController {
@@ -37,5 +37,12 @@ export class PostsController {
     return newPost
   }
 
-  // @Patch(':id')
+  @Patch(':id')
+  updateById(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updatePostDto: UpdatePostDto,
+  ): void {
+    console.info(`id is`, id)
+    console.info(`updatePostDto`, updatePostDto)
+  }
 }
