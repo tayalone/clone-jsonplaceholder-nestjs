@@ -1,4 +1,4 @@
-import { Controller, Get, Param } from '@nestjs/common'
+import { Controller, Get, Param, ParseIntPipe } from '@nestjs/common'
 import { PostsService } from './posts.service'
 import { Post } from './interfaces/post.interface'
 
@@ -13,7 +13,7 @@ export class PostsController {
   }
 
   @Get(':id')
-  findById(@Param('id') id: number): string {
+  findById(@Param('id', ParseIntPipe) id: number): string {
     return `params.id is => ${id} and id type is ${typeof id}`
   }
 }
