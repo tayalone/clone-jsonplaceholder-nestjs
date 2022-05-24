@@ -5,6 +5,7 @@ import {
   HttpCode,
   Param,
   ParseIntPipe,
+  Patch,
   Post,
 } from '@nestjs/common'
 import { PostsService } from './posts.service'
@@ -35,4 +36,6 @@ export class PostsController {
     })
     return newPost
   }
+
+  // @Patch(':id')
 }
