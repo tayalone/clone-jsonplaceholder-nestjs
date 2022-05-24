@@ -21,5 +21,10 @@ export class PostsService {
     return this.posts[postIndex]
   }
 
-  create({ userId, title, body }: CreatePostDto): void {}
+  create({ userId, title, body }: CreatePostDto): Post {
+    const newId: number = this.posts.length
+    const newPost: Post = { id: newId, userId, title, body }
+    this.posts.push(newPost)
+    return newPost
+  }
 }

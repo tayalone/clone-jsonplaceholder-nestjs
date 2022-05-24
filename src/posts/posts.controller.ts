@@ -31,7 +31,6 @@ export class PostsController {
     title: string
     body: string
   } {
-    console.info(createPostDto)
     return createPostDto
   }
 }
