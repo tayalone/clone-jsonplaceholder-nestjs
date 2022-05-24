@@ -3,6 +3,8 @@ import {
   Controller,
   Get,
   HttpCode,
+  HttpException,
+  HttpStatus,
   Param,
   ParseIntPipe,
   Patch,
@@ -41,8 +43,11 @@ export class PostsController {
   updateById(
     @Param('id', ParseIntPipe) id: number,
     @Body() updatePostDto: UpdatePostDto,
-  ): void {
-    console.info(`id is`, id)
-    console.info(`updatePostDto`, updatePostDto)
+  ): PostInterface {
+    const updatedPost = this.postsService.updateById({ id, updatePostDto })
+    if (!updatedPost) {
+      throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST)
+    }
+    return updatedPost
   }
 }
