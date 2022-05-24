@@ -26,11 +26,13 @@ export class PostsController {
   }
 
   @Post()
-  createPost(@Body() createPostDto: CreatePostDto): {
-    userId: number
-    title: string
-    body: string
-  } {
-    return createPostDto
+  @HttpCode(201)
+  createPost(@Body() createPostDto: CreatePostDto): PostInterface {
+    const newPost: PostInterface = this.postsService.create({
+      userId: createPostDto.userId,
+      body: createPostDto.body,
+      title: createPostDto.title,
+    })
+    return newPost
   }
 }
