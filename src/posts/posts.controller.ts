@@ -13,7 +13,7 @@ export class PostsController {
   }
 
   @Get(':id')
-  findById(@Param() params): string {
-    return `params.id is => ${params.id}`
+  findById(@Param('id') id: number): string {
+    return `params.id is => ${id} and id type is ${typeof id}`
   }
 }

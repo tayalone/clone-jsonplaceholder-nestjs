@@ -1,2 +1,6 @@
 ### get all posts
 GET http://localhost:3000/posts
+
+### get post by postId
+
+GET http://localhost:3000/posts/1
