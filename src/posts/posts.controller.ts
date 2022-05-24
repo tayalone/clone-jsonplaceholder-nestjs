@@ -9,6 +9,7 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+  Delete,
 } from '@nestjs/common'
 import { PostsService } from './posts.service'
 import { Post as PostInterface } from './interfaces/post.interface'
@@ -49,5 +50,10 @@ export class PostsController {
       throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST)
     }
     return updatedPost
+  }
+
+  @Delete(':id')
+  deleteById(@Param('id', ParseIntPipe) id: number): string {
+    return `deleted`
   }
 }

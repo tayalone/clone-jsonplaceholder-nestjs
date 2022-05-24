@@ -7,6 +7,10 @@ import { CreatePostDto, UpdatePostDto } from './dto'
 export class PostsService {
   private readonly posts: Post[] = POSTS
 
+  // private findPostIndex(id: number): number {
+  //   return this.posts.findIndex((p) => p.id === id)
+  // }
+
   findAll(): Post[] {
     return this.posts
   }
@@ -49,5 +53,14 @@ export class PostsService {
     this.posts[postIndex] = newBody
 
     return newBody
+  }
+
+  deleteById(id: number): boolean {
+    const postIndex: number = this.posts.findIndex((p) => p.id === id)
+    if (postIndex === -1) {
+      return false
+    }
+    this.posts.splice(postIndex, 1)
+    return true
   }
 }
