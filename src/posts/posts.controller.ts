@@ -54,6 +54,10 @@ export class PostsController {
 
   @Delete(':id')
   deleteById(@Param('id', ParseIntPipe) id: number): string {
+    const deletedResult = this.postsService.deleteById(id)
+    if (!deletedResult) {
+      throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST)
+    }
     return `deleted`
   }
 }
