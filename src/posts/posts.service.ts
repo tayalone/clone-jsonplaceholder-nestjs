@@ -10,7 +10,13 @@ export class PostsService {
     return this.posts
   }
 
-  findById(): Post | null {
-    return null
+  findById(id: number): Post | unknown {
+    const postIndex: number = this.posts.findIndex((p) => p.id === id)
+
+    if (postIndex === -1) {
+      return {}
+    }
+
+    return this.posts[postIndex]
   }
 }

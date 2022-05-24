@@ -13,7 +13,7 @@ export class PostsController {
   }
 
   @Get(':id')
-  findById(@Param('id', ParseIntPipe) id: number): string {
-    return `params.id is => ${id} and id type is ${typeof id}`
+  findById(@Param('id', ParseIntPipe) id: number): Post | unknown {
+    return this.postsService.findById(id)
   }
 }
