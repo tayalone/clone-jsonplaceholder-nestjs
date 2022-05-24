@@ -12,7 +12,7 @@ export class CreatePostDto {
   title: string
 
   @IsNotEmpty()
-  @MinLength(5, {
+  @MinLength(10, {
     message: 'Body is too short',
   })
   body: string

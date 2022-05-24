@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { Post } from './interfaces/post.interface'
 import { POSTS } from '../../mock/posts'
+import { CreatePostDto } from './dto'
 
 @Injectable()
 export class PostsService {
@@ -19,4 +20,6 @@ export class PostsService {
 
     return this.posts[postIndex]
   }
+
+  create({ userId, title, body }: CreatePostDto): void {}
 }

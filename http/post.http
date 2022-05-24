@@ -10,7 +10,7 @@ POST http://localhost:3000/posts  HTTP/1.1
 content-type: application/json
 
 {
-    "userId": "1",
+    "userId": 1,
     "title": "title 1",
-    "body": "body 1"
+    "body": "body is ma f*** body"
 }
