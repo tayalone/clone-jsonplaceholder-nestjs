@@ -4,7 +4,7 @@ import mockData from '../../mock/data.json'
 
 @Injectable()
 export class PostsService {
-  private readonly posts: Post[] = []
+  private readonly posts: Post[] = mockData.posts
 
   findAll(): Post[] {
     return this.posts
