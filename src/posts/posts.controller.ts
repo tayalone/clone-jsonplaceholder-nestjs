@@ -1,4 +1,5 @@
 import {
+  Body,
   Controller,
   Get,
   HttpCode,
@@ -8,6 +9,7 @@ import {
 } from '@nestjs/common'
 import { PostsService } from './posts.service'
 import { Post as PostInterface } from './interfaces/post.interface'
+import { CreatePostDto } from './dto'
 
 @Controller('posts')
 export class PostsController {
@@ -24,8 +26,12 @@ export class PostsController {
   }
 
   @Post()
-  @HttpCode(201)
-  createPost(): string {
-    return 'function must return new post'
+  createPost(@Body() createPostDto: CreatePostDto): {
+    userId: number
+    title: string
+    body: string
+  } {
+    console.info(createPostDto)
+    return createPostDto
   }
 }
