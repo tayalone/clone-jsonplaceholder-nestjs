@@ -11,7 +11,8 @@
     "vscode-icons-team.vscode-icons",
     "jpoissonnier.vscode-styled-components",
     "ms-vsliveshare.vsliveshare",
-    "ms-vscode.vscode-typescript-next"
+    "ms-vscode.vscode-typescript-next",
+    "humao.rest-client"
   ],
   "unwantedRecommendations": []
 }
