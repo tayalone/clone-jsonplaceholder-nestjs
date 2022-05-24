@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common'
+import { Controller, Get, Param } from '@nestjs/common'
 import { PostsService } from './posts.service'
 import { Post } from './interfaces/post.interface'
 
@@ -10,5 +10,10 @@ export class PostsController {
   findAllPost(): Post[] {
     // return this.postsService.findAll()
     return this.postsService.findAll()
+  }
+
+  @Get(':id')
+  findById(@Param() params): string {
+    return `params.id is => ${params.id}`
   }
 }
