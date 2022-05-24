@@ -9,4 +9,8 @@ export class PostsService {
   findAll(): Post[] {
     return this.posts
   }
+
+  findById(): Post | null {
+    return null
+  }
 }
