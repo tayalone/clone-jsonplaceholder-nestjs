@@ -11,7 +11,6 @@ import {
   Post,
   Delete,
 } from '@nestjs/common'
-import { get } from 'http'
 import { PostsService } from './posts.service'
 import { Post as PostInterface } from './interfaces/post.interface'
 import { CreatePostDto, UpdatePostDto } from './dto'
@@ -68,8 +67,9 @@ export class PostsController {
     return `deleted`
   }
 
-  // @Get(':id/comments')
-  // findCommentByPostId(@Param('id', ParseIntPipe) id: number): Comment[] {
-  //   return []
-  // }
+  @Get(':id/comments')
+  findCommentByPostId(@Param('id', ParseIntPipe) id: number): Comment[] {
+    const comments = this.commentService.findAll({ postId: id })
+    return comments
+  }
 }
