@@ -1,4 +1,4 @@
-import { CreatePostDto } from './CreatePostDto'
-import { UpdatePostDto } from './UpdatePostDto'
+import { CreatePostDto } from './create-post.dto'
+import { UpdatePostDto } from './update-post.dto'
 
 export { CreatePostDto, UpdatePostDto }

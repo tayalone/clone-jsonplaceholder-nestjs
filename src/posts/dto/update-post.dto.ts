@@ -1,5 +1,5 @@
 import { OmitType } from '@nestjs/mapped-types'
-import { CreatePostDto } from './CreatePostDto'
+import { CreatePostDto } from './create-post.dto'
 
 export class UpdatePostDto extends OmitType(CreatePostDto, [
   'userId' as const,
