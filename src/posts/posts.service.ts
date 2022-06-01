@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { Post } from './interfaces/post.interface'
-import { POSTS } from '../../mock/posts'
+import { POSTS } from '../mock/posts'
 import { CreatePostDto, UpdatePostDto } from './dto'
 
 @Injectable()
@@ -9,7 +9,7 @@ export class PostsService {
 
   // private findPostIndex(id: number): number {
   //   return this.posts.findIndex((p) => p.id === id)
-  // }
+  // }yar
 
   findAll(): Post[] {
     return this.posts
