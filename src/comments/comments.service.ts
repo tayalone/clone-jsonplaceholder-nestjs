@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common'
-import { COMMENTS } from '../../mock/comments'
+import { COMMENTS } from '../mock/comments'
 import { Comment } from './interfaces/comments.interfaces'
 
 @Injectable()
