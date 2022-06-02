@@ -5,6 +5,7 @@ import { AppController } from './app.controller'
 import { AppService } from './app.service'
 import { PostsModule } from './posts/posts.module'
 import { CommentsModule } from './comments/comments.module'
+import { PrismaModule } from './services/prisma/prisma.module'
 
 @Module({
   controllers: [AppController],
@@ -15,6 +16,7 @@ import { CommentsModule } from './comments/comments.module'
       load: [configuration],
       isGlobal: true,
     }),
+    PrismaModule,
     PostsModule,
     CommentsModule,
   ],

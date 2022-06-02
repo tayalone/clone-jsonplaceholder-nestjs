@@ -25,5 +25,8 @@
   "editor.suggestSelection": "first",
   "editor.snippetSuggestions": "top",
   "editor.scrollBeyondLastLine": false,
-  "javascript.preferences.importModuleSpecifier": "non-relative"
+  "javascript.preferences.importModuleSpecifier": "non-relative",
+  "[prisma]": {
+    "editor.defaultFormatter": "Prisma.prisma"
+  }
 }

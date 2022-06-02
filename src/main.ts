@@ -2,6 +2,7 @@ import { ValidationPipe } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
 import { ConfigService } from '@nestjs/config'
 import { AppModule } from './app.module'
+import { PrismaService } from './services/prisma/prisma.service'
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule)
@@ -10,8 +11,10 @@ async function bootstrap() {
   const port = configService.get<number>('port')
   /*--------------------------*/
   app.useGlobalPipes(new ValidationPipe({ transform: true }))
-
   console.info(`app running @ port: `, port)
+
+  const prismaService = app.get(PrismaService)
+  await prismaService.enableShutdownHooks(app)
 
   await app.listen(port)
 }
