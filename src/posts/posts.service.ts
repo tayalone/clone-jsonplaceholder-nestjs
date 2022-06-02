@@ -1,66 +1,62 @@
 import { Injectable } from '@nestjs/common'
 import { Post } from './interfaces/post.interface'
-import { POSTS } from '../mock/posts'
 import { CreatePostDto, UpdatePostDto } from './dto'
+import { PrismaService } from '../services/prisma/prisma.service'
 
 @Injectable()
 export class PostsService {
-  private readonly posts: Post[] = POSTS
+  constructor(private prisma: PrismaService) {}
 
-  // private findPostIndex(id: number): number {
-  //   return this.posts.findIndex((p) => p.id === id)
-  // }yar
-
-  findAll(): Post[] {
-    return this.posts
+  async findAll(): Promise<Post[]> {
+    // return this.posts
+    return this.prisma.post.findMany({})
   }
 
-  findById(id: number): Post | unknown {
-    const postIndex: number = this.posts.findIndex((p) => p.id === id)
+  async findById(id: number): Promise<Post | unknown> {
+    const post = await this.prisma.post.findUnique({ where: { id } })
 
-    if (postIndex === -1) {
-      return {}
+    if (post) {
+      return post
     }
-
-    return this.posts[postIndex]
+    return {}
   }
 
-  create({ userId, title, body }: CreatePostDto): Post {
-    const newId: number = this.posts.length
-    const newPost: Post = { id: newId, userId, title, body }
-    this.posts.push(newPost)
+  async create({ userId, title, body }: CreatePostDto): Promise<Post> {
+    const newPost: Post = await this.prisma.post.create({
+      data: {
+        userId,
+        title,
+        body,
+      },
+    })
+
     return newPost
   }
 
-  updateById({
+  async updateById({
     id,
     updatePostDto,
   }: {
     id: number
     updatePostDto: UpdatePostDto
-  }): Post | null {
-    const postIndex: number = this.posts.findIndex((p) => p.id === id)
+  }): Promise<Post | null> {
+    // this.posts[postIndex] = newBody
 
-    if (postIndex === -1) {
-      return null
-    }
-    const newBody = {
-      ...this.posts[postIndex],
-      title: updatePostDto.title,
-      body: updatePostDto.body,
-    }
-
-    this.posts[postIndex] = newBody
-
-    return newBody
+    return this.prisma.post.update({
+      where: { id },
+      data: {
+        title: updatePostDto.title,
+        body: updatePostDto.body,
+      },
+    })
   }
 
-  deleteById(id: number): boolean {
-    const postIndex: number = this.posts.findIndex((p) => p.id === id)
-    if (postIndex === -1) {
+  async deleteById(id: number): Promise<boolean> {
+    try {
+      await this.prisma.post.delete({ where: { id } })
+    } catch (err) {
       return false
     }
-    this.posts.splice(postIndex, 1)
     return true
   }
 }

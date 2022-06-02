@@ -10,7 +10,7 @@ services:
     ports:
       - 5432:5432
     volumes:
-      - ../postgres-data:/var/lib/postgresql/data'
+      - postgres-data:/var/lib/postgresql/data'
   clone_jsonplaceholder_app:
     build:
       context: ../
@@ -24,3 +24,5 @@ services:
       - '3000:3000'
     depends_on:
       - postges_db
+volumes:
+  postgres-data:

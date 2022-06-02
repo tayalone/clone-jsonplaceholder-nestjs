@@ -26,32 +26,36 @@ export class PostsController {
   ) {}
 
   @Get()
-  findAllPost(): PostInterface[] {
+  findAllPost(): Promise<PostInterface[]> {
     return this.postsService.findAll()
   }
 
   @Get(':id')
-  findById(@Param('id', ParseIntPipe) id: number): PostInterface | unknown {
+  findById(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<PostInterface | unknown> {
     return this.postsService.findById(id)
   }
 
   @Post()
   @HttpCode(201)
-  createPost(@Body() createPostDto: CreatePostDto): PostInterface {
-    const newPost: PostInterface = this.postsService.create({
+  createPost(@Body() createPostDto: CreatePostDto): Promise<PostInterface> {
+    return this.postsService.create({
       userId: createPostDto.userId,
       body: createPostDto.body,
       title: createPostDto.title,
     })
-    return newPost
   }
 
   @Patch(':id')
-  updateById(
+  async updateById(
     @Param('id', ParseIntPipe) id: number,
     @Body() updatePostDto: UpdatePostDto,
-  ): PostInterface {
-    const updatedPost = this.postsService.updateById({ id, updatePostDto })
+  ): Promise<PostInterface> {
+    const updatedPost = await this.postsService.updateById({
+      id,
+      updatePostDto,
+    })
     if (!updatedPost) {
       throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST)
     }
@@ -59,10 +63,11 @@ export class PostsController {
   }
 
   @Delete(':id')
-  deleteById(@Param('id', ParseIntPipe) id: number): string {
-    const deletedResult = this.postsService.deleteById(id)
+  async deleteById(@Param('id', ParseIntPipe) id: number): Promise<string> {
+    const deletedResult = await this.postsService.deleteById(id)
+    console.info(`deletedResult`, deletedResult)
     if (!deletedResult) {
-      throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST)
+      throw new HttpException('Record Not Found', HttpStatus.NOT_FOUND)
     }
     return `deleted`
   }

@@ -2,7 +2,7 @@
 GET http://localhost:3000/posts
 ###
 ### get post by postId
-GET http://localhost:3000/posts/-1
+GET http://localhost:3000/posts/1
 
 ###
 ### create post
