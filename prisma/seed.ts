@@ -1,6 +1,6 @@
 /* eslint-disable promise/catch-or-return */
 import { PrismaClient } from '@prisma/client'
-import { POSTS } from './migrations/initial/posts'
+import { POSTS } from './initial/posts'
 
 const prisma = new PrismaClient()
 
