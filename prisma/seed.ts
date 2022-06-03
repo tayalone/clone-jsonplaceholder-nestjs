@@ -6,7 +6,10 @@ const prisma = new PrismaClient()
 
 async function main() {
   // -------------- Seedings --------------
-  console.info(`initail create post data`)
+  await prisma.post.deleteMany()
+  console.info('Deleted records in category table')
+
+  console.info(`initail create post records`)
   const postData = POSTS.map((p) => {
     return {
       userId: p.userId,
@@ -17,7 +20,7 @@ async function main() {
   await prisma.post.createMany({
     data: postData,
   })
-  console.info(`create post data is done`)
+  console.info(`create post records complete`)
   // --------------------------------------
 }
 
