@@ -2,10 +2,14 @@ import { Injectable } from '@nestjs/common'
 import { Post } from './interfaces/post.interface'
 import { CreatePostDto, UpdatePostDto } from './dto'
 import { PrismaService } from '../services/prisma/prisma.service'
+import { CommentsService } from '../comments/comments.service'
 
 @Injectable()
 export class PostsService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private readonly commentService: CommentsService,
+  ) {}
 
   async findAll(): Promise<Post[]> {
     // return this.posts
@@ -53,7 +57,24 @@ export class PostsService {
 
   async deleteById(id: number): Promise<boolean> {
     try {
-      await this.prisma.post.delete({ where: { id } })
+      const countDeletedPosts = await this.prisma.post.deleteMany({
+        where: {
+          AND: [
+            { id },
+            {
+              deletedAt: {
+                equals: null,
+              },
+            },
+          ],
+        },
+      })
+
+      if (countDeletedPosts.count <= 0) {
+        return false
+      }
+
+      await this.commentService.deleteCommentByPostId({ postId: id })
     } catch (err) {
       return false
     }

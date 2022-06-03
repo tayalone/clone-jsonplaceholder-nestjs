@@ -15,4 +15,20 @@ export class CommentsService {
 
     return this.prisma.comment.findMany({ where: { ...where } })
   }
+
+  async deleteCommentByPostId({ postId }: { postId: number }): Promise<number> {
+    const countDeleteComment = await this.prisma.comment.deleteMany({
+      where: {
+        AND: [
+          { postId },
+          {
+            deletedAt: {
+              equals: null,
+            },
+          },
+        ],
+      },
+    })
+    return countDeleteComment.count
+  }
 }
