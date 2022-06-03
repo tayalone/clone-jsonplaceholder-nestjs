@@ -73,7 +73,9 @@ export class PostsController {
   }
 
   @Get(':id/comments')
-  findCommentByPostId(@Param('id', ParseIntPipe) id: number): Comment[] {
+  findCommentByPostId(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<Comment[]> {
     const comments = this.commentService.findAll({ postId: id })
     return comments
   }

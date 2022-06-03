@@ -2,7 +2,8 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "darwin", "linux-musl"]
 }
 
 datasource db {
@@ -18,4 +19,15 @@ model Post {
 
   @@index([userId], name: "post_user_id")
   @@map("posts")
+}
+
+model Comment {
+  id     Int    @id @default(autoincrement())
+  postId Int
+  name   String
+  email  String
+  body   String
+
+  @@index([postId], name: "comment_post_id")
+  @@map("comments")
 }

@@ -1,6 +1,7 @@
 /* eslint-disable promise/catch-or-return */
 import { PrismaClient } from '@prisma/client'
-import { POSTS } from './migrations/initial/posts'
+import { POSTS } from './initial/posts'
+import { COMMENTS } from './initial/comments'
 
 const prisma = new PrismaClient()
 
@@ -20,6 +21,21 @@ async function main() {
     data: postData,
   })
   console.info(`create post records complete`)
+  await prisma.comment.deleteMany()
+  console.info(`initail create post records`)
+  const comentData = COMMENTS.map((c) => {
+    return {
+      postId: c.postId,
+      name: c.name,
+      email: c.email,
+      body: c.body,
+    }
+  })
+  console.info(`create comment records complete`)
+  await prisma.comment.createMany({
+    data: comentData,
+  })
+  console.info(`create comment records complete`)
   // --------------------------------------
 }
 

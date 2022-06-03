@@ -7,7 +7,7 @@ export class CommentsController {
   constructor(private readonly commentsService: CommentsService) {}
 
   @Get()
-  findAllComment(@Query('postId') postId?: number): Comment[] {
+  findAllComment(@Query('postId') postId?: number): Promise<Comment[]> {
     const queryOptions: any = {}
     if (postId) {
       queryOptions.postId = postId
