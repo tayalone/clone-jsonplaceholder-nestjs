@@ -8,7 +8,6 @@ async function main() {
   // -------------- Seedings --------------
   await prisma.post.deleteMany()
   console.info('Deleted records in category table')
-
   console.info(`initail create post records`)
   const postData = POSTS.map((p) => {
     return {
