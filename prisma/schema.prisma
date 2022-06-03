@@ -12,22 +12,29 @@ datasource db {
 }
 
 model Post {
-  id     Int    @id @default(autoincrement())
-  userId Int
-  title  String
-  body   String
+  id        Int       @id @default(autoincrement())
+  userId    Int
+  title     String
+  body      String
+  deletedAt DateTime?
 
   @@index([userId], name: "post_user_id")
+  @@index([deletedAt], name: "post_deleted_at")
+  @@index([userId, deletedAt], name: "post_user_id_deleted_at")
   @@map("posts")
 }
 
 model Comment {
-  id     Int    @id @default(autoincrement())
-  postId Int
-  name   String
-  email  String
-  body   String
+  id        Int       @id @default(autoincrement())
+  postId    Int
+  name      String
+  email     String
+  body      String
+  deletedAt DateTime?
+
 
   @@index([postId], name: "comment_post_id")
+  @@index([deletedAt], name: "comment_deleted_at")
+  @@index([postId, deletedAt], name: "comment_post_id_deleted_at")
   @@map("comments")
 }

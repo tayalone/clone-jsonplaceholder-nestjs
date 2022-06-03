@@ -1,5 +1,5 @@
 ### get all comments
-GET http://localhost:3000/comments?postId=1
+GET http://localhost:3000/comments
 
 ### get all comments with postId
 GET http://localhost:3000/comments?postId=2

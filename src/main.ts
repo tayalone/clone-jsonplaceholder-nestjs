@@ -16,6 +16,11 @@ async function bootstrap() {
   const prismaService = app.get(PrismaService)
   await prismaService.enableShutdownHooks(app)
 
+  // prismaService.$use(async (params, next) => {
+  //   console.info(`params.model`, params.model)
+  //   return next(params)
+  // })
+
   await app.listen(port)
 }
 bootstrap()
