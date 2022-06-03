@@ -2,6 +2,20 @@ import { Injectable } from '@nestjs/common'
 import { Comment } from './interfaces/comments.interfaces'
 import { PrismaService } from '../services/prisma/prisma.service'
 
+const SELECT_ATTRIBUTE = {
+  id: true,
+  postId: true,
+  name: true,
+  email: true,
+  body: true,
+}
+
+const EXISITNG_COND = {
+  deletedAt: {
+    equals: null,
+  },
+}
+
 @Injectable()
 export class CommentsService {
   constructor(private prisma: PrismaService) {}
@@ -13,7 +27,10 @@ export class CommentsService {
       where.postId = postId
     }
 
-    return this.prisma.comment.findMany({ where: { ...where } })
+    return this.prisma.comment.findMany({
+      where: { ...where, ...EXISITNG_COND },
+      select: { ...SELECT_ATTRIBUTE },
+    })
   }
 
   async deleteCommentByPostId({ postId }: { postId: number }): Promise<number> {
@@ -22,9 +39,7 @@ export class CommentsService {
         AND: [
           { postId },
           {
-            deletedAt: {
-              equals: null,
-            },
+            ...EXISITNG_COND,
           },
         ],
       },
