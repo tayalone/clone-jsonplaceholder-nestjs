@@ -1,5 +1,6 @@
 import {
   Body,
+  Query,
   Controller,
   Get,
   HttpCode,
@@ -10,6 +11,7 @@ import {
   Patch,
   Post,
   Delete,
+  ParseArrayPipe,
 } from '@nestjs/common'
 import { PostsService } from './posts.service'
 import { Post as PostInterface } from './interfaces/post.interface'
@@ -26,15 +28,20 @@ export class PostsController {
   ) {}
 
   @Get()
-  findAllPost(): Promise<PostInterface[]> {
-    return this.postsService.findAll()
+  findAllPost(
+    @Query('includes', new ParseArrayPipe({ items: String, separator: ',' }))
+    includes: string[],
+  ): Promise<PostInterface[]> {
+    return this.postsService.findAll({ includes })
   }
 
   @Get(':id')
   findById(
     @Param('id', ParseIntPipe) id: number,
+    @Query('includes', new ParseArrayPipe({ items: String, separator: ',' }))
+    includes: string[],
   ): Promise<PostInterface | unknown> {
-    return this.postsService.findById(id)
+    return this.postsService.findById(id, includes)
   }
 
   @Post()
