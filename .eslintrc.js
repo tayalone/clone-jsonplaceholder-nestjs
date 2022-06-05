@@ -27,5 +27,6 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 'off',
     'class-methods-use-this': 'off',
     'import/prefer-default-export': 'off',
+    'import/no-cycle': 'off',
   },
 }
