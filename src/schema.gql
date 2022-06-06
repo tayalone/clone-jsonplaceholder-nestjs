@@ -2,6 +2,19 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Comment {
+  body: String!
+  email: String!
+
+  """Comment Unique Id"""
+  id: Int!
+  name: String!
+  post: Post!
+
+  """Parent's Post id"""
+  postId: Int!
+}
+
 input CreateTmpInput {
   """Example field (placeholder)"""
   exampleField: Int!
@@ -21,7 +34,10 @@ type Mutation {
 type Post {
   body: String!
 
-  """Id of Post Owner"""
+  """Child Comment"""
+  comments: [Comment!]
+
+  """post deleted time"""
   deletedAt: DateTime
 
   """Post Unique Id"""
@@ -33,6 +49,7 @@ type Post {
 }
 
 type Query {
+  comments(postId: Float): [Comment!]!
   post(id: Int!): Post!
   posts: [Post!]!
   tmp(id: Int!): Tmp!
