@@ -8,6 +8,7 @@ import {
   Parent,
 } from '@nestjs/graphql'
 import { HttpException, HttpStatus } from '@nestjs/common'
+import { Prisma } from '@prisma/client'
 import { Post } from './entities/post.entity'
 import { PostsService } from './posts.service'
 import { CommentsService } from '../comments/comments.service'
@@ -21,8 +22,12 @@ export class PostResolver {
   ) {}
 
   @Query(() => [Post], { name: 'posts' })
-  findAll() {
-    return this.postsService.findAll({ includes: [] })
+  findAll(
+    @Args('where', { defaultValue: undefined, nullable: true }) where: string,
+  ) {
+    return this.postsService.findAllPosts({
+      where: where ? JSON.parse(where) : undefined,
+    })
   }
 
   @Query(() => Post, { name: 'post' })

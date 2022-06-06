@@ -57,7 +57,7 @@ type Post {
 type Query {
   comments(postId: Float): [Comment!]!
   post(id: Int!): Post!
-  posts: [Post!]!
+  posts(where: String): [Post!]!
 }
 
 input UpdatePostInput {

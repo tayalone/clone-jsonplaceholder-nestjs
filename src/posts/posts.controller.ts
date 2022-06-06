@@ -81,7 +81,6 @@ export class PostsController {
   @Delete(':id')
   async deleteById(@Param('id', ParseIntPipe) id: number): Promise<string> {
     const deletedResult = await this.postsService.deleteById(id)
-    console.info(`deletedResult`, deletedResult)
     if (!deletedResult) {
       throw new HttpException('Record Not Found', HttpStatus.NOT_FOUND)
     }
