@@ -17,6 +17,15 @@ const EXISITNG_COND = {
     equals: null,
   },
 }
+
+interface SelectInterface {
+  id: boolean
+  userId: boolean
+  body: boolean
+  title: boolean
+  comments?: any
+}
+
 @Injectable()
 export class PostsService {
   constructor(
@@ -34,24 +43,60 @@ export class PostsService {
       if (!match) {
         return acc
       }
-      return { ...acc, [data]: true }
+      return {
+        ...acc,
+        [data]: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            body: true,
+            postId: true,
+          },
+        },
+      }
     }, {})
     return include
   }
 
   async findAll({ includes = [] }): Promise<Post[]> {
     const include: Include = this.generateInclude({ includes })
+
+    const select: SelectInterface = {
+      ...SELECT_ATTRIBUTE,
+    }
+
+    if (include) {
+      if (include.comments) {
+        select.comments = include.comments
+      }
+    }
+
     return this.prisma.post.findMany({
       where: {
         ...EXISITNG_COND,
       },
-      include,
+      select,
     })
   }
 
   async findById(id: number, includes: string[] = []): Promise<Post | unknown> {
     const include: Include = this.generateInclude({ includes })
-    const post = await this.prisma.post.findUnique({ where: { id }, include })
+
+    const select: SelectInterface = {
+      ...SELECT_ATTRIBUTE,
+    }
+
+    if (include) {
+      if (include.comments) {
+        select.comments = include.comments
+      }
+    }
+
+    const post = await this.prisma.post.findFirst({
+      where: { id, ...EXISITNG_COND },
+      select,
+    })
 
     if (post) {
       return post
