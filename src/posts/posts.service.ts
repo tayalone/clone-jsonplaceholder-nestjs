@@ -1,66 +1,162 @@
 import { Injectable } from '@nestjs/common'
 import { Post } from './interfaces/post.interface'
-import { POSTS } from '../mock/posts'
+import { Include } from './interfaces/include.interface'
 import { CreatePostDto, UpdatePostDto } from './dto'
+import { PrismaService } from '../services/prisma/prisma.service'
+import { CommentsService } from '../comments/comments.service'
+
+interface SelectInterface {
+  id: boolean
+  userId: boolean
+  body: boolean
+  title: boolean
+  comments?: any
+}
+
+const SELECT_ATTRIBUTE: SelectInterface = {
+  id: true,
+  userId: true,
+  body: true,
+  title: true,
+}
+
+const EXISITNG_COND = {
+  deletedAt: {
+    equals: null,
+  },
+}
 
 @Injectable()
 export class PostsService {
-  private readonly posts: Post[] = POSTS
+  constructor(
+    private prisma: PrismaService,
+    private readonly commentService: CommentsService,
+  ) {}
 
-  // private findPostIndex(id: number): number {
-  //   return this.posts.findIndex((p) => p.id === id)
-  // }yar
-
-  findAll(): Post[] {
-    return this.posts
+  private generateInclude({ includes = [] }: { includes: string[] }): Include {
+    if (includes.length <= 0) {
+      return undefined
+    }
+    const EXISTING_INCLUDE = ['comments']
+    const include = includes.reduce((acc, data) => {
+      const match = EXISTING_INCLUDE.includes(data)
+      if (!match) {
+        return acc
+      }
+      return {
+        ...acc,
+        [data]: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            body: true,
+            postId: true,
+          },
+        },
+      }
+    }, {})
+    return include
   }
 
-  findById(id: number): Post | unknown {
-    const postIndex: number = this.posts.findIndex((p) => p.id === id)
+  async findAll({ includes = [] }): Promise<Post[]> {
+    const include: Include = this.generateInclude({ includes })
 
-    if (postIndex === -1) {
-      return {}
+    const select: SelectInterface = {
+      ...SELECT_ATTRIBUTE,
     }
 
-    return this.posts[postIndex]
+    if (include) {
+      if (include.comments) {
+        select.comments = include.comments
+      }
+    }
+
+    return this.prisma.post.findMany({
+      where: {
+        ...EXISITNG_COND,
+      },
+      select,
+    })
   }
 
-  create({ userId, title, body }: CreatePostDto): Post {
-    const newId: number = this.posts.length
-    const newPost: Post = { id: newId, userId, title, body }
-    this.posts.push(newPost)
+  async findById(id: number, includes: string[] = []): Promise<Post | unknown> {
+    const include: Include = this.generateInclude({ includes })
+
+    const select: SelectInterface = {
+      ...SELECT_ATTRIBUTE,
+    }
+
+    if (include) {
+      if (include.comments) {
+        select.comments = include.comments
+      }
+    }
+
+    const post = await this.prisma.post.findFirst({
+      where: { id, ...EXISITNG_COND },
+      select,
+    })
+
+    if (post) {
+      return post
+    }
+    return {}
+  }
+
+  async create({ userId, title, body }: CreatePostDto): Promise<Post> {
+    const newPost: Post = await this.prisma.post.create({
+      data: {
+        userId,
+        title,
+        body,
+      },
+    })
+
     return newPost
   }
 
-  updateById({
+  async updateById({
     id,
     updatePostDto,
   }: {
     id: number
     updatePostDto: UpdatePostDto
-  }): Post | null {
-    const postIndex: number = this.posts.findIndex((p) => p.id === id)
+  }): Promise<Post | null> {
+    // this.posts[postIndex] = newBody
 
-    if (postIndex === -1) {
-      return null
-    }
-    const newBody = {
-      ...this.posts[postIndex],
-      title: updatePostDto.title,
-      body: updatePostDto.body,
-    }
-
-    this.posts[postIndex] = newBody
-
-    return newBody
+    return this.prisma.post.update({
+      where: { id },
+      data: {
+        title: updatePostDto.title,
+        body: updatePostDto.body,
+      },
+    })
   }
 
-  deleteById(id: number): boolean {
-    const postIndex: number = this.posts.findIndex((p) => p.id === id)
-    if (postIndex === -1) {
+  async deleteById(id: number): Promise<boolean> {
+    try {
+      const countDeletedPosts = await this.prisma.post.deleteMany({
+        where: {
+          AND: [
+            { id },
+            {
+              deletedAt: {
+                equals: null,
+              },
+            },
+          ],
+        },
+      })
+
+      if (countDeletedPosts.count <= 0) {
+        return false
+      }
+
+      await this.commentService.deleteCommentByPostId({ postId: id })
+    } catch (err) {
       return false
     }
-    this.posts.splice(postIndex, 1)
     return true
   }
 }

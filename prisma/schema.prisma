@@ -1,0 +1,42 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "darwin", "linux-musl"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Post {
+  id        Int       @id @default(autoincrement())
+  userId    Int
+  title     String
+  body      String
+  comments  Comment[]
+  deletedAt DateTime?
+
+
+  @@index([userId], name: "post_user_id")
+  @@index([deletedAt], name: "post_deleted_at")
+  @@index([userId, deletedAt], name: "post_user_id_deleted_at")
+  @@map("posts")
+}
+
+model Comment {
+  id        Int       @id @default(autoincrement())
+  post      Post      @relation(fields: [postId], references: [id])
+  postId    Int
+  name      String
+  email     String
+  body      String
+  deletedAt DateTime?
+
+  @@index([postId], name: "comment_post_id")
+  @@index([deletedAt], name: "comment_deleted_at")
+  @@index([postId, deletedAt], name: "comment_post_id_deleted_at")
+  @@map("comments")
+}

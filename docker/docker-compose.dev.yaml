@@ -1,6 +1,17 @@
 version: '3.8'
 services:
-  nest_app:
+  postges_db:
+    image: postgres:14.2-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: example
+      POSTGRES_DB: clone_jsonplaceholder
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+  clone_jsonplaceholder_app:
     build:
       context: ../
       dockerfile: ./docker/Dockerfile.dev
@@ -8,6 +19,20 @@ services:
       - ../.env.local
     volumes:
       - ../:/app
-      - /app/node_modules
     ports:
       - '3000:3000'
+    depends_on:
+      - postges_db
+  prisma-studio:
+    container_name: prisma-studio
+    image: timothyjmiller/prisma-studio:latest
+    restart: unless-stopped
+    env_file:
+      - ../.env.local
+    ports:
+      - 5555:5555
+    depends_on:
+      - postges_db
+      - clone_jsonplaceholder_app
+volumes:
+  postgres-data:
