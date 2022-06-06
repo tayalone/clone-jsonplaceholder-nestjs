@@ -12,7 +12,9 @@
     "jpoissonnier.vscode-styled-components",
     "ms-vsliveshare.vsliveshare",
     "ms-vscode.vscode-typescript-next",
-    "humao.rest-client"
+    "humao.rest-client",
+    "GraphQL.vscode-graphql",
+    "Prisma.prisma"
   ],
   "unwantedRecommendations": []
 }
