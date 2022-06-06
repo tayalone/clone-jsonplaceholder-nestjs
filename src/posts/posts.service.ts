@@ -5,7 +5,15 @@ import { CreatePostDto, UpdatePostDto } from './dto'
 import { PrismaService } from '../services/prisma/prisma.service'
 import { CommentsService } from '../comments/comments.service'
 
-const SELECT_ATTRIBUTE = {
+interface SelectInterface {
+  id: boolean
+  userId: boolean
+  body: boolean
+  title: boolean
+  comments?: any
+}
+
+const SELECT_ATTRIBUTE: SelectInterface = {
   id: true,
   userId: true,
   body: true,
@@ -16,14 +24,6 @@ const EXISITNG_COND = {
   deletedAt: {
     equals: null,
   },
-}
-
-interface SelectInterface {
-  id: boolean
-  userId: boolean
-  body: boolean
-  title: boolean
-  comments?: any
 }
 
 @Injectable()
