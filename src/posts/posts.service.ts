@@ -5,6 +5,18 @@ import { CreatePostDto, UpdatePostDto } from './dto'
 import { PrismaService } from '../services/prisma/prisma.service'
 import { CommentsService } from '../comments/comments.service'
 
+const SELECT_ATTRIBUTE = {
+  id: true,
+  userId: true,
+  body: true,
+  title: true,
+}
+
+const EXISITNG_COND = {
+  deletedAt: {
+    equals: null,
+  },
+}
 @Injectable()
 export class PostsService {
   constructor(
@@ -29,7 +41,12 @@ export class PostsService {
 
   async findAll({ includes = [] }): Promise<Post[]> {
     const include: Include = this.generateInclude({ includes })
-    return this.prisma.post.findMany({ include })
+    return this.prisma.post.findMany({
+      where: {
+        ...EXISITNG_COND,
+      },
+      include,
+    })
   }
 
   async findById(id: number, includes: string[] = []): Promise<Post | unknown> {
