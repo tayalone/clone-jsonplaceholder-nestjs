@@ -7,5 +7,6 @@ import { PostResolver } from './post.resolver'
 @Module({
   controllers: [PostsController],
   providers: [PostsService, CommentsService, PostResolver],
+  exports: [PostsService],
 })
 export class PostsModule {}
