@@ -9,7 +9,7 @@ export class CommentsService {
 
   private generateInclude({ includes = [] }: { includes: string[] }): Include {
     if (includes.length <= 0) {
-      return {}
+      return undefined
     }
     const EXISTING_INCLUDE = ['post']
     const include = includes.reduce((acc, data) => {
