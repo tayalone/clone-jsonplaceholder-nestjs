@@ -26,11 +26,6 @@ input CreatePostInput {
   userId: Int!
 }
 
-input CreateTmpInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
 """
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
@@ -38,11 +33,8 @@ scalar DateTime
 
 type Mutation {
   createPost(createPostInput: CreatePostInput!): Post!
-  createTmp(createTmpInput: CreateTmpInput!): Tmp!
   deletePost(id: Int!): String!
-  removeTmp(id: Int!): Tmp!
   updatePost(id: Int!, updatePostInput: UpdatePostInput!): Post!
-  updateTmp(updateTmpInput: UpdateTmpInput!): Tmp!
 }
 
 type Post {
@@ -66,12 +58,6 @@ type Query {
   comments(postId: Float): [Comment!]!
   post(id: Int!): Post!
   posts: [Post!]!
-  tmp(id: Int!): Tmp!
-}
-
-type Tmp {
-  """Example field (placeholder)"""
-  exampleField: Int!
 }
 
 input UpdatePostInput {
@@ -80,10 +66,4 @@ input UpdatePostInput {
 
   """Post Title"""
   title: String!
-}
-
-input UpdateTmpInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
 }
