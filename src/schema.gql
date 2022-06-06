@@ -40,6 +40,7 @@ type Mutation {
   createPost(createPostInput: CreatePostInput!): Post!
   createTmp(createTmpInput: CreateTmpInput!): Tmp!
   removeTmp(id: Int!): Tmp!
+  updatePost(id: Int!, updatePostInput: UpdatePostInput!): Post!
   updateTmp(updateTmpInput: UpdateTmpInput!): Tmp!
 }
 
@@ -70,6 +71,14 @@ type Query {
 type Tmp {
   """Example field (placeholder)"""
   exampleField: Int!
+}
+
+input UpdatePostInput {
+  """Post Body"""
+  body: String!
+
+  """Post Title"""
+  title: String!
 }
 
 input UpdateTmpInput {

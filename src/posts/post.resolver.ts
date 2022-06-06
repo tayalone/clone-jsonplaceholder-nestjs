@@ -7,10 +7,11 @@ import {
   ResolveField,
   Parent,
 } from '@nestjs/graphql'
+import { HttpException, HttpStatus } from '@nestjs/common'
 import { Post } from './entities/post.entity'
 import { PostsService } from './posts.service'
 import { CommentsService } from '../comments/comments.service'
-import { CreatePostInput } from './dto'
+import { CreatePostInput, UpdatePostInput } from './dto'
 
 @Resolver(() => Post)
 export class PostResolver {
@@ -43,5 +44,20 @@ export class PostResolver {
       title: createPostInput.title,
       body: createPostInput.body,
     })
+  }
+
+  @Mutation(() => Post)
+  async updatePost(
+    @Args('id', { type: () => Int }) id: number,
+    @Args('updatePostInput') updatePostInput: UpdatePostInput,
+  ) {
+    const updatedPost = await this.postsService.updateById({
+      id,
+      updatePostDto: updatePostInput,
+    })
+    if (!updatedPost) {
+      throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST)
+    }
+    return updatedPost
   }
 }
