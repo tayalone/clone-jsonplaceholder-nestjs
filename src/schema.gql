@@ -1,0 +1,50 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+input CreateTmpInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Mutation {
+  createTmp(createTmpInput: CreateTmpInput!): Tmp!
+  removeTmp(id: Int!): Tmp!
+  updateTmp(updateTmpInput: UpdateTmpInput!): Tmp!
+}
+
+type Post {
+  body: String!
+
+  """Id of Post Owner"""
+  deletedAt: DateTime
+
+  """Post Unique Id"""
+  id: Int!
+  title: String!
+
+  """Id of Post Owner"""
+  userId: Int!
+}
+
+type Query {
+  post(id: Int!): Post!
+  posts: [Post!]!
+  tmp(id: Int!): Tmp!
+}
+
+type Tmp {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateTmpInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}

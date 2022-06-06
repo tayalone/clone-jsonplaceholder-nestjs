@@ -9,6 +9,7 @@ import { AppService } from './app.service'
 import { PostsModule } from './posts/posts.module'
 import { CommentsModule } from './comments/comments.module'
 import { PrismaModule } from './services/prisma/prisma.module'
+import { TmpModule } from './tmp/tmp.module'
 
 @Module({
   controllers: [AppController],
@@ -29,6 +30,7 @@ import { PrismaModule } from './services/prisma/prisma.module'
     PrismaModule,
     PostsModule,
     CommentsModule,
+    TmpModule,
   ],
 })
 export class AppModule {}
