@@ -27,7 +27,6 @@ FROM node:14-alpine as final_stage
 # set working directory
 WORKDIR /app/
 
-
 # copy package.json file
 COPY --from=build_stage /app/package.json /app/
 

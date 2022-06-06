@@ -1,4 +1,10 @@
-import { Controller, Get, ParseArrayPipe, Query } from '@nestjs/common'
+import {
+  Controller,
+  DefaultValuePipe,
+  Get,
+  ParseArrayPipe,
+  Query,
+} from '@nestjs/common'
 import { CommentsService } from './comments.service'
 import { Comment } from './interfaces/comments.interfaces'
 
@@ -9,7 +15,11 @@ export class CommentsController {
   @Get()
   findAllComment(
     @Query('postId') postId?: number,
-    @Query('includes', new ParseArrayPipe({ items: String, separator: ',' }))
+    @Query(
+      'includes',
+      new DefaultValuePipe([]),
+      new ParseArrayPipe({ items: String, separator: ',' }),
+    )
     includes?: string[],
   ): Promise<Comment[]> {
     const queryOptions: any = {}

@@ -10,7 +10,7 @@ export class PostsService {
 
   private generateInclude({ includes = [] }: { includes: string[] }): Include {
     if (includes.length <= 0) {
-      return {}
+      return undefined
     }
     const EXISTING_INCLUDE = ['comments']
     const include = includes.reduce((acc, data) => {

@@ -12,6 +12,7 @@ import {
   Post,
   Delete,
   ParseArrayPipe,
+  DefaultValuePipe,
 } from '@nestjs/common'
 import { PostsService } from './posts.service'
 import { Post as PostInterface } from './interfaces/post.interface'
@@ -29,7 +30,11 @@ export class PostsController {
 
   @Get()
   findAllPost(
-    @Query('includes', new ParseArrayPipe({ items: String, separator: ',' }))
+    @Query(
+      'includes',
+      new DefaultValuePipe([]),
+      new ParseArrayPipe({ items: String, separator: ',' }),
+    )
     includes: string[],
   ): Promise<PostInterface[]> {
     return this.postsService.findAll({ includes })
@@ -38,7 +43,11 @@ export class PostsController {
   @Get(':id')
   findById(
     @Param('id', ParseIntPipe) id: number,
-    @Query('includes', new ParseArrayPipe({ items: String, separator: ',' }))
+    @Query(
+      'includes',
+      new DefaultValuePipe([]),
+      new ParseArrayPipe({ items: String, separator: ',' }),
+    )
     includes: string[],
   ): Promise<PostInterface | unknown> {
     return this.postsService.findById(id, includes)
