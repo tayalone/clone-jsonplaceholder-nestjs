@@ -15,6 +15,7 @@ async function main() {
       userId: p.userId,
       title: p.title,
       body: p.body,
+      deletedAt: null,
     }
   })
   await prisma.post.createMany({
@@ -29,6 +30,7 @@ async function main() {
       name: c.name,
       email: c.email,
       body: c.body,
+      deletedAt: null,
     }
   })
   console.info(`create comment records complete`)

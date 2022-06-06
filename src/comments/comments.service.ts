@@ -3,6 +3,29 @@ import { Comment } from './interfaces/comments.interfaces'
 import { PrismaService } from '../services/prisma/prisma.service'
 import { Include } from './interfaces/include.interfaces'
 
+interface SelectInterface {
+  postId: boolean
+  id: boolean
+  name: boolean
+  email: boolean
+  body: boolean
+  post?: any
+}
+
+const SELECT_ATTRIBUTE = {
+  id: true,
+  postId: true,
+  name: true,
+  email: true,
+  body: true,
+}
+
+const EXISITNG_COND = {
+  deletedAt: {
+    equals: null,
+  },
+}
+
 @Injectable()
 export class CommentsService {
   constructor(private prisma: PrismaService) {}
@@ -17,7 +40,17 @@ export class CommentsService {
       if (!match) {
         return acc
       }
-      return { ...acc, [data]: true }
+      return {
+        ...acc,
+        [data]: {
+          select: {
+            id: true,
+            userId: true,
+            body: true,
+            title: true,
+          },
+        },
+      }
     }, {})
     return include
   }
@@ -37,6 +70,34 @@ export class CommentsService {
 
     const include = this.generateInclude({ includes })
 
-    return this.prisma.comment.findMany({ where: { ...where }, include })
+    const select: SelectInterface = {
+      ...SELECT_ATTRIBUTE,
+    }
+    if (include) {
+      if (include.post) {
+        select.post = include.post
+      }
+    }
+
+    return this.prisma.comment.findMany({
+      select,
+      where: { ...EXISITNG_COND, ...where },
+    })
+  }
+
+  async deleteCommentByPostId({ postId }: { postId: number }): Promise<number> {
+    const countDeleteComment = await this.prisma.comment.deleteMany({
+      where: {
+        AND: [
+          { postId },
+          {
+            deletedAt: {
+              equals: null,
+            },
+          },
+        ],
+      },
+    })
+    return countDeleteComment.count
   }
 }

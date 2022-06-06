@@ -7,4 +7,5 @@ export interface Comment {
   email: string
   body: string
   post?: Post
+  deletedAt?: Date
 }
