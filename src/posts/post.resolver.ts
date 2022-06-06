@@ -1,7 +1,7 @@
 import {
   Resolver,
   Query,
-  // Mutation,
+  Mutation,
   Args,
   Int,
   ResolveField,
@@ -10,6 +10,7 @@ import {
 import { Post } from './entities/post.entity'
 import { PostsService } from './posts.service'
 import { CommentsService } from '../comments/comments.service'
+import { CreatePostInput } from './dto'
 
 @Resolver(() => Post)
 export class PostResolver {
@@ -33,5 +34,14 @@ export class PostResolver {
   async comments(@Parent() post: Post) {
     const { id } = post
     return this.commentService.findAll({ postId: id, includes: [] })
+  }
+
+  @Mutation(() => Post)
+  createPost(@Args('createPostInput') createPostInput: CreatePostInput) {
+    return this.postsService.create({
+      userId: createPostInput.userId,
+      title: createPostInput.title,
+      body: createPostInput.body,
+    })
   }
 }

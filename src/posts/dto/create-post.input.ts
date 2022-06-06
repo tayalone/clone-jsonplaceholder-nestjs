@@ -2,7 +2,7 @@ import { InputType, Int, Field } from '@nestjs/graphql'
 import { IsNotEmpty, IsInt, MinLength } from 'class-validator'
 
 @InputType()
-export class CreateTmpInput {
+export class CreatePostInput {
   @Field(() => Int, { description: 'User Id' })
   @IsNotEmpty()
   @IsInt()
