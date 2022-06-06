@@ -39,6 +39,7 @@ scalar DateTime
 type Mutation {
   createPost(createPostInput: CreatePostInput!): Post!
   createTmp(createTmpInput: CreateTmpInput!): Tmp!
+  deletePost(id: Int!): String!
   removeTmp(id: Int!): Tmp!
   updatePost(id: Int!, updatePostInput: UpdatePostInput!): Post!
   updateTmp(updateTmpInput: UpdateTmpInput!): Tmp!

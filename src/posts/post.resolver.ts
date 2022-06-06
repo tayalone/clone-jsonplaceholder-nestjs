@@ -60,4 +60,13 @@ export class PostResolver {
     }
     return updatedPost
   }
+
+  @Mutation(() => String)
+  async deletePost(@Args('id', { type: () => Int }) id: number) {
+    const deletedResult = await this.postsService.deleteById(id)
+    if (!deletedResult) {
+      throw new HttpException('Record Not Found', HttpStatus.NOT_FOUND)
+    }
+    return `deleted`
+  }
 }
