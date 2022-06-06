@@ -8,7 +8,6 @@ import {
   Parent,
 } from '@nestjs/graphql'
 import { HttpException, HttpStatus } from '@nestjs/common'
-import { Prisma } from '@prisma/client'
 import { Post } from './entities/post.entity'
 import { PostsService } from './posts.service'
 import { CommentsService } from '../comments/comments.service'
