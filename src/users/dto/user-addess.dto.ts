@@ -1,16 +1,19 @@
-import { IsNotEmpty, ValidateNested } from 'class-validator'
+import { IsString, IsObject, ValidateNested } from 'class-validator'
+import { Type } from 'class-transformer'
 import { UserGeoDto } from './user-geo.dto'
 
 export class UserAddressDto {
-  @IsNotEmpty()
+  @IsString()
   street: string
 
-  @IsNotEmpty()
+  @IsString()
   suite: string
 
-  @IsNotEmpty()
+  @IsString()
   zipcode: string
 
+  @IsObject()
   @ValidateNested()
+  @Type(() => UserGeoDto)
   geo: UserGeoDto
 }

@@ -1,12 +1,12 @@
-import { IsNotEmpty } from 'class-validator'
+import { IsString } from 'class-validator'
 
 export class UserCompayDto {
-  @IsNotEmpty()
+  @IsString()
   name: string
 
-  @IsNotEmpty()
+  @IsString()
   catchPhrase: string
 
-  @IsNotEmpty()
+  @IsString()
   bs: string
 }

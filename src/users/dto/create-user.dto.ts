@@ -1,22 +1,24 @@
 import {
   IsEmail,
   IsLowercase,
-  IsNotEmpty,
   IsUrl,
   MinLength,
   ValidateNested,
+  IsString,
+  IsObject,
 } from 'class-validator'
+import { Type } from 'class-transformer'
 import { UserAddressDto } from './user-addess.dto'
 import { UserCompayDto } from './user-compay.dto'
 
 export class CreateUserDto {
-  @IsNotEmpty()
+  @IsString()
   @MinLength(5, {
     message: 'Name is too short',
   })
   name: string
 
-  @IsNotEmpty()
+  @IsString()
   @MinLength(4, {
     message: 'Username is too short',
   })
@@ -25,23 +27,27 @@ export class CreateUserDto {
   })
   username: string
 
-  @IsNotEmpty()
+  @IsString()
   @IsEmail()
   @IsLowercase({
     message: 'Username must be lowercase',
   })
   email: string
 
+  @IsObject()
   @ValidateNested()
-  addess: UserAddressDto
+  @Type(() => UserAddressDto)
+  address: UserAddressDto
 
-  @IsNotEmpty()
+  @IsString()
   phone: string
 
-  @IsNotEmpty()
+  @IsString()
   @IsUrl()
   website: string
 
+  @IsObject()
   @ValidateNested()
-  compay: UserCompayDto
+  @Type(() => UserCompayDto)
+  company: UserCompayDto
 }

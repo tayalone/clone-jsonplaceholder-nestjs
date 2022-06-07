@@ -1,0 +1,26 @@
+### try create post
+
+POST http://localhost:3000/users HTTP/1.1
+content-type: application/json
+
+{
+  "name": "test จย้า",
+  "username": "tayalone",
+  "email": "tayalone@gmail.com",
+  "address": {
+    "street": "Kulas Light",
+    "suite": "Apt. 556",
+    "zipcode": "92998-3874",
+    "geo": {
+      "lat": -31.8129,
+      "lng": 62.5342
+    }
+  },
+  "phone": "1-770-736-8031 x56442",
+  "website": "www.google.com",
+  "company":{
+    "name": "ntayz xoxo",
+    "catchPhrase": "xoxo",
+    "bs": "oxox"
+  }
+}
