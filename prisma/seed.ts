@@ -2,11 +2,28 @@
 import { PrismaClient } from '@prisma/client'
 import { POSTS } from './initial/posts'
 import { COMMENTS } from './initial/comments'
+import { USERS } from './initial/users'
 
 const prisma = new PrismaClient()
 
 async function main() {
   // -------------- Seedings --------------
+  await prisma.user.deleteMany()
+  console.info('Deleted records in user')
+  console.info(`initail create user records`)
+  const userData = USERS.map((u) => {
+    return {
+      name: u.name,
+      username: u.username,
+      email: u.email,
+      address: u.address,
+      phone: u.phone,
+      website: u.website,
+      company: u.company,
+    }
+  })
+  await prisma.user.createMany({ data: userData })
+  console.info(`create post records complete`)
   await prisma.post.deleteMany()
   console.info('Deleted records in category table')
   console.info(`initail create post records`)
