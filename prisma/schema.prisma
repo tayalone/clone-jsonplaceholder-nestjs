@@ -12,7 +12,7 @@ datasource db {
 }
 
 model User {
-  id       Int    @id @default(autoincrement())
+  id       Int     @id @default(autoincrement())
   name     String
   username String
   email    String
@@ -21,6 +21,8 @@ model User {
   website  String
   company  Json?
   Post     Post[]
+  Todos    Todos[]
+  Album    Album[]
 
   @@index([username], name: "user_username")
   @@index([email], name: "user_email")
@@ -56,4 +58,34 @@ model Comment {
   @@index([deletedAt], name: "comment_deleted_at")
   @@index([postId, deletedAt], name: "comment_post_id_deleted_at")
   @@map("comments")
+}
+
+model Album {
+  id     Int     @id @default(autoincrement())
+  title  String
+  userId Int
+  owner  User    @relation(fields: [userId], references: [id])
+  photo  Photo[]
+
+  @@map("albums")
+}
+
+model Photo {
+  id           Int    @id @default(autoincrement())
+  title        String
+  url          String
+  thumbnailUrl String
+  albumId      Int
+  album        Album  @relation(fields: [albumId], references: [id])
+
+  @@map("photos")
+}
+
+model Todos {
+  id        Int     @id @default(autoincrement())
+  userId    Int
+  owner     User    @relation(fields: [userId], references: [id])
+  completed Boolean @default(false)
+
+  @@map("todos")
 }
