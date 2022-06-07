@@ -1,0 +1,69 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Comment {
+  body: String!
+  email: String!
+
+  """Comment Unique Id"""
+  id: Int!
+  name: String!
+  post: Post!
+
+  """Parent's Post id"""
+  postId: Int!
+}
+
+input CreatePostInput {
+  """Post Body"""
+  body: String!
+
+  """Post Title"""
+  title: String!
+
+  """User Id"""
+  userId: Int!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Mutation {
+  createPost(createPostInput: CreatePostInput!): Post!
+  deletePost(id: Int!): String!
+  updatePost(id: Int!, updatePostInput: UpdatePostInput!): Post!
+}
+
+type Post {
+  body: String!
+
+  """Child Comment"""
+  comments: [Comment!]
+
+  """post deleted time"""
+  deletedAt: DateTime
+
+  """Post Unique Id"""
+  id: Int!
+  title: String!
+
+  """Id of Post Owner"""
+  userId: Int!
+}
+
+type Query {
+  comments(postId: Float): [Comment!]!
+  post(id: Int!): Post!
+  posts(where: String): [Post!]!
+}
+
+input UpdatePostInput {
+  """Post Body"""
+  body: String!
+
+  """Post Title"""
+  title: String!
+}

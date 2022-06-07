@@ -14,12 +14,11 @@ import {
   ParseArrayPipe,
   DefaultValuePipe,
 } from '@nestjs/common'
+import { CommentsService } from '@comments/comments.service'
+import { Comment } from '@comments/interfaces/comments.interfaces'
 import { PostsService } from './posts.service'
 import { Post as PostInterface } from './interfaces/post.interface'
 import { CreatePostDto, UpdatePostDto } from './dto'
-
-import { CommentsService } from '../comments/comments.service'
-import { Comment } from '../comments/interfaces/comments.interfaces'
 
 @Controller('posts')
 export class PostsController {
@@ -81,7 +80,6 @@ export class PostsController {
   @Delete(':id')
   async deleteById(@Param('id', ParseIntPipe) id: number): Promise<string> {
     const deletedResult = await this.postsService.deleteById(id)
-    console.info(`deletedResult`, deletedResult)
     if (!deletedResult) {
       throw new HttpException('Record Not Found', HttpStatus.NOT_FOUND)
     }

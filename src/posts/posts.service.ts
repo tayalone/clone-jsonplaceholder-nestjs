@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common'
+import { Prisma } from '@prisma/client'
+import { CommentsService } from '@comments/comments.service'
+import { PrismaService } from '@services/prisma/prisma.service'
 import { Post } from './interfaces/post.interface'
 import { Include } from './interfaces/include.interface'
 import { CreatePostDto, UpdatePostDto } from './dto'
-import { PrismaService } from '../services/prisma/prisma.service'
-import { CommentsService } from '../comments/comments.service'
 
 interface SelectInterface {
   id: boolean
@@ -158,5 +159,27 @@ export class PostsService {
       return false
     }
     return true
+  }
+
+  async findAllPosts({
+    skip,
+    take,
+    cursor,
+    where,
+    orderBy,
+  }: {
+    skip?: number
+    take?: number
+    cursor?: Prisma.PostWhereUniqueInput
+    where?: Prisma.PostWhereInput
+    orderBy?: Prisma.PostOrderByWithRelationInput
+  }): Promise<Post[]> {
+    return this.prisma.post.findMany({
+      skip,
+      take,
+      cursor,
+      where,
+      orderBy,
+    })
   }
 }
