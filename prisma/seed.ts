@@ -17,9 +17,15 @@ async function main() {
   const userData = USERS.map((u) => {
     return {
       name: u.name,
-      username: u.username,
-      email: u.email,
-      address: u.address,
+      username: u.username.toLowerCase(),
+      email: u.email.toLowerCase(),
+      address: {
+        ...u.address,
+        geo: {
+          lat: parseFloat(u.address.geo.lat) || 0.0,
+          lng: parseFloat(u.address.geo.lng) || 0.0,
+        },
+      },
       phone: u.phone,
       website: u.website,
       company: u.company,
