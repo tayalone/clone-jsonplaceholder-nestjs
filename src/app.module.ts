@@ -9,8 +9,8 @@ import { AppService } from './app.service'
 import { PostsModule } from './posts/posts.module'
 import { CommentsModule } from './comments/comments.module'
 import { PrismaModule } from './services/prisma/prisma.module'
-import { TodosModule } from './todos/todos.module';
-import { UsersModule } from './users/users.module';
+import { TodosModule } from './todos/todos.module'
+import { UsersModule } from './users/users.module'
 
 @Module({
   controllers: [AppController],

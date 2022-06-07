@@ -13,7 +13,7 @@ content-type: application/json
     "zipcode": "92998-3874",
     "geo": {
       "lat": -31.8129,
-      "lng": 62.5342
+ 
     }
   },
   "phone": "1-770-736-8031 x56442",
