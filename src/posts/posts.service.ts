@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common'
 import { Prisma } from '@prisma/client'
+import { CommentsService } from '@comments/comments.service'
+import { PrismaService } from '@services/prisma/prisma.service'
 import { Post } from './interfaces/post.interface'
 import { Include } from './interfaces/include.interface'
 import { CreatePostDto, UpdatePostDto } from './dto'
-import { PrismaService } from '../services/prisma/prisma.service'
-import { CommentsService } from '../comments/comments.service'
 
 interface SelectInterface {
   id: boolean

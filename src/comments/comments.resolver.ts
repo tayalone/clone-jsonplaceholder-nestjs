@@ -3,15 +3,13 @@ import {
   Query,
   // Mutation,
   Args,
-  Int,
   ResolveField,
   Parent,
 } from '@nestjs/graphql'
+import { Post } from '@posts/entities/post.entity'
+import { PostsService } from '@posts/posts.service'
 import { CommentsService } from './comments.service'
-import { PostsService } from '../posts/posts.service'
-
 import { Comment } from './entities/comment.entity'
-import { Post } from '../posts/entities/post.entity'
 
 @Resolver(() => Comment)
 export class CommentResolver {

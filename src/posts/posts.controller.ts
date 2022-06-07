@@ -14,12 +14,11 @@ import {
   ParseArrayPipe,
   DefaultValuePipe,
 } from '@nestjs/common'
+import { CommentsService } from '@comments/comments.service'
+import { Comment } from '@comments/interfaces/comments.interfaces'
 import { PostsService } from './posts.service'
 import { Post as PostInterface } from './interfaces/post.interface'
 import { CreatePostDto, UpdatePostDto } from './dto'
-
-import { CommentsService } from '../comments/comments.service'
-import { Comment } from '../comments/interfaces/comments.interfaces'
 
 @Controller('posts')
 export class PostsController {

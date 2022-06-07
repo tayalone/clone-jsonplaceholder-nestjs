@@ -8,9 +8,10 @@ import {
   Parent,
 } from '@nestjs/graphql'
 import { HttpException, HttpStatus } from '@nestjs/common'
+import { CommentsService } from '@comments/comments.service'
 import { Post } from './entities/post.entity'
 import { PostsService } from './posts.service'
-import { CommentsService } from '../comments/comments.service'
+
 import { CreatePostInput, UpdatePostInput } from './dto'
 
 @Resolver(() => Post)

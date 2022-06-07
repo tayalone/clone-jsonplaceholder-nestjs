@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
+import { PrismaService } from '@services/prisma/prisma.service'
 import { Comment } from './interfaces/comments.interfaces'
-import { PrismaService } from '../services/prisma/prisma.service'
 import { Include } from './interfaces/include.interfaces'
 
 interface SelectInterface {
