@@ -21,7 +21,7 @@ model User {
   website  String
   company  Json?
   Post     Post[]
-  Todos    Todos[]
+  Todos    Todo[]
   Album    Album[]
 
   @@index([username], name: "user_username")
@@ -81,10 +81,11 @@ model Photo {
   @@map("photos")
 }
 
-model Todos {
+model Todo {
   id        Int     @id @default(autoincrement())
   userId    Int
   owner     User    @relation(fields: [userId], references: [id])
+  title     String
   completed Boolean @default(false)
 
   @@map("todos")
