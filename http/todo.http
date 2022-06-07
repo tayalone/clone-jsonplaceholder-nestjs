@@ -1,0 +1,28 @@
+### get all todos
+GET http://localhost:3000/todos
+###
+
+
+### get todos by id
+GET http://localhost:3000/todos/1
+###
+
+### create todo items
+POST http://localhost:3000/todos HTTP/1.1
+content-type: application/json
+
+{
+    "userId": 1,
+    "title": "I wanna test todo api",
+    "completed": true
+}
+
+### patch todo item by id
+
+PATCH http://localhost:3000/todos/1 HTTP/1.1
+
+content-type: application/json
+{
+    "title": "Gotcha todo no. has been changed by you!!",
+    "completed": false
+}

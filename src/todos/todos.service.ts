@@ -1,26 +1,47 @@
 import { Injectable } from '@nestjs/common'
-import { CreateTodoDto } from './dto/create-todo.dto'
-import { UpdateTodoDto } from './dto/update-todo.dto'
+import { Todo, Prisma } from '@prisma/client'
+import { PrismaService } from '@services/prisma/prisma.service'
 
 @Injectable()
 export class TodosService {
-  create(createTodoDto: CreateTodoDto) {
-    return 'This action adds a new todo'
+  constructor(private prisma: PrismaService) {}
+
+  async create(data: Prisma.TodoUncheckedCreateInput): Promise<Todo> {
+    return this.prisma.todo.create({ data })
   }
 
-  findAll() {
-    return `This action returns all todos`
+  async findAll(params: {
+    skip?: number
+    take?: number
+    cursor?: Prisma.TodoWhereUniqueInput
+    where?: Prisma.TodoWhereInput
+    orderBy?: Prisma.TodoOrderByWithRelationInput
+  }): Promise<Todo[]> {
+    return this.prisma.todo.findMany({ ...params })
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} todo`
+  async findOne(where: Prisma.TodoWhereUniqueInput): Promise<Todo | unknown> {
+    const result = await this.prisma.todo.findUnique({ where })
+
+    if (result) {
+      return result
+    }
+    return {}
   }
 
-  update(id: number, updateTodoDto: UpdateTodoDto) {
-    return `This action updates a #${id} todo`
+  async update(params: {
+    where: Prisma.TodoWhereUniqueInput
+    data: Prisma.TodoUncheckedUpdateInput
+  }): Promise<Todo> {
+    return this.prisma.todo.update({ where: params.where, data: params.data })
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} todo`
+  async remove(where: Prisma.TodoWhereUniqueInput): Promise<boolean> {
+    try {
+      await this.prisma.todo.delete({ where })
+      return true
+    } catch (_err) {
+      return false
+    }
   }
 }
