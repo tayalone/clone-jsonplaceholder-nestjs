@@ -3,6 +3,8 @@ FROM node:14-alpine as install_modules_stage
 
 # set working directory
 WORKDIR /app/
+# # copy prisma
+COPY prisma /app/
 # install production dependencies
 COPY package.json yarn.lock /app/
 RUN yarn install --frozen-lockfile --production
@@ -28,13 +30,13 @@ FROM node:14-alpine as final_stage
 WORKDIR /app/
 
 # copy package.json file
-COPY --from=build_stage /app/package.json /app/
+COPY --from=build_stage /app/package.json ./package.json
 
 # copy production deps
-COPY --from=install_modules_stage /app/node_modules/ /app/node_modules/
+COPY --from=install_modules_stage /app/node_modules/ ./node_modules
 
-# copy production app
-COPY --from=build_stage /app/dist/ /app/dist/
+# # copy production app
+COPY --from=build_stage /app/dist ./dist/
 
 EXPOSE 3000
 
