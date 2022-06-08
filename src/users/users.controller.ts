@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param } from '@nestjs/common'
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  HttpException,
+  HttpStatus,
+} from '@nestjs/common'
 import { User } from '@prisma/client'
 import { instanceToPlain } from 'class-transformer'
 import { UsersService } from './users.service'
@@ -30,10 +39,29 @@ export class UsersController {
   }
 
   @Patch(':id')
-  update(
+  async update(
     @Param('id') id: string,
     @Body() updateUserDto: UpdateUserDto,
-  ): UpdateUserDto {
-    return updateUserDto
+  ): Promise<User> {
+    const data = {
+      ...updateUserDto,
+      address: updateUserDto.address
+        ? instanceToPlain(updateUserDto.address)
+        : undefined,
+      company: updateUserDto.company
+        ? instanceToPlain(updateUserDto.company)
+        : undefined,
+    }
+
+    const user = await this.usersService.update({
+      where: { id: +id },
+      data,
+    })
+
+    if (!user) {
+      throw new HttpException('Record Not Found', HttpStatus.NOT_FOUND)
+    }
+
+    return user
   }
 }
