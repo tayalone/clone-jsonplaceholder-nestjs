@@ -3,7 +3,7 @@ GET http://localhost:3000/users HTTP/1.1
 
 
 ### get all user by id
-GET http://localhost:3000/users/asdasdasdasdasdasd HTTP/1.1
+GET http://localhost:3000/users/1 HTTP/1.1
 
 
 ### try create post
@@ -37,22 +37,8 @@ PATCH http://localhost:3000/users/1 HTTP/1.1
 content-type: application/json
 
 {
-  "name": "test จย้า",
-  "address": {
-    "street": "Kulas Light",
-    "suite": "Apt. 556",
-    "zipcode": "92998-3874",
-    "geo": {
-      "lat": -31.8129,
-      "lng": 62.5342
-    }
-  },
+  "name": "test จย้า1",
   "phone": "1-770-736-8031 x56442",
-  "website": "www.google.com",
-  "company":{
-    "name": "ntayz xoxo",
-    "catchPhrase": "xoxo",
-    "bs": "oxox"
-  }
+  "website": "www.google1.com"
 }
 

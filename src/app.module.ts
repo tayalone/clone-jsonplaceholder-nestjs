@@ -11,6 +11,7 @@ import { CommentsModule } from './comments/comments.module'
 import { PrismaModule } from './services/prisma/prisma.module'
 import { TodosModule } from './todos/todos.module'
 import { UsersModule } from './users/users.module'
+import { AlbumsModule } from './albums/albums.module'
 
 @Module({
   controllers: [AppController],
@@ -33,6 +34,7 @@ import { UsersModule } from './users/users.module'
     CommentsModule,
     TodosModule,
     UsersModule,
+    AlbumsModule,
   ],
 })
 export class AppModule {}
