@@ -1,5 +1,5 @@
 import { Field, Int, ObjectType, GraphQLISODateTime } from '@nestjs/graphql'
-import { Comment } from '../../comments/entities/comment.entity'
+import { Comment } from '@comments/entities/comment.entity'
 
 @ObjectType()
 export class Post {
