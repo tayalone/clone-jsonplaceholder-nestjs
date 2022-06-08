@@ -10,7 +10,16 @@ async function bootstrap() {
   const configService = app.get(ConfigService)
   const port = configService.get<number>('port')
   /*--------------------------*/
-  app.useGlobalPipes(new ValidationPipe({ transform: true }))
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true,
+      whitelist: true,
+      forbidNonWhitelisted: true,
+      // enableDebugMessages: true,
+      // forbidUnknownValues: true,
+      // skipUndefinedProperties: true,
+    }),
+  )
   console.info(`app running @ port: `, port)
 
   const prismaService = app.get(PrismaService)
