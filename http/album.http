@@ -1,0 +1,28 @@
+### get all album
+GET http://localhost:3000/albums
+
+
+### get album by id
+GET http://localhost:3000/albums/1
+
+
+### create album items
+POST http://localhost:3000/albums HTTP/1.1
+content-type: application/json
+
+{
+    "userId": 1,
+    "title": "I wanna test album"
+}
+
+### update album by id
+PATCH  http://localhost:3000/albums/1 HTTP/1.1
+content-type: application/json
+
+{
+    "title": "I wanna patch album id 1."
+}
+
+
+### delete album by id
+DELETE  http://localhost:3000/albums/102 HTTP/1.1
