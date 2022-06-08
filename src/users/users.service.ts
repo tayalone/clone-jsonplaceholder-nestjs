@@ -11,12 +11,23 @@ export class UsersService {
     return this.prisma.user.create({ data })
   }
 
-  findAll() {
-    return `This action returns all users`
+  async findAll(params: {
+    skip?: number
+    take?: number
+    cursor?: Prisma.UserWhereUniqueInput
+    where?: Prisma.UserWhereInput
+    orderBy?: Prisma.UserOrderByWithRelationInput
+  }): Promise<User[]> {
+    const { skip, take, cursor, where, orderBy } = params
+    return this.prisma.user.findMany({ skip, take, cursor, where, orderBy })
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`
+  async findOne(where: Prisma.UserWhereUniqueInput): Promise<User | any> {
+    const result = await this.prisma.user.findUnique({ where })
+    if (!result) {
+      return {}
+    }
+    return result
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {

@@ -20,13 +20,13 @@ export class UsersController {
   }
 
   @Get()
-  findAll() {
-    return this.usersService.findAll()
+  findAll(): Promise<User[]> {
+    return this.usersService.findAll({})
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.usersService.findOne(+id)
+  findOne(@Param('id') id: string): Promise<User | any> {
+    return this.usersService.findOne({ id: +id })
   }
 
   @Patch(':id')

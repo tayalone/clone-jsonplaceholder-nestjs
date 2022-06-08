@@ -1,5 +1,8 @@
-### try create post
+### get all user
+GET http://localhost:3000/users HTTP/1.1
 
+
+### try create post
 POST http://localhost:3000/users HTTP/1.1
 content-type: application/json
 
@@ -13,7 +16,7 @@ content-type: application/json
     "zipcode": "92998-3874",
     "geo": {
       "lat": -31.8129,
- 
+      "lng": 62.5342
     }
   },
   "phone": "1-770-736-8031 x56442",
