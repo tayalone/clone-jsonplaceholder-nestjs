@@ -11,10 +11,14 @@
     "outDir": "./dist",
     "baseUrl": "./",
     "paths": {
+      "@albums/*": ["src/albums/*"],
       "@comments/*": ["src/comments/*"],
       "@config/*": ["src/config/*"],
       "@posts/*": ["src/posts/*"],
-      "@services/*": ["src/services/*"]
+      "@photos/*": ["src/photos/*"],
+      "@services/*": ["src/services/*"],
+      "@todos/*": ["src/todos/*"],
+      "@users/*": ["src/users/*"]
     },
     "incremental": true,
     "skipLibCheck": true,
