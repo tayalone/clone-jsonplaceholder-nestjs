@@ -6,6 +6,12 @@ const SOFT_DELETE_MODEL = ['Post', 'Comment']
 
 @Injectable()
 export class PrismaService extends PrismaClient implements OnModuleInit {
+  constructor() {
+    super({
+      log: ['query', 'info', 'warn', 'error'],
+    })
+  }
+
   private softDeleteMiddleware() {
     this.$use(async (params, next) => {
       if (SOFT_DELETE_MODEL.includes(params.model)) {

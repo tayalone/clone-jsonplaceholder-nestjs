@@ -1,5 +1,6 @@
 import { Field, Int, ObjectType, GraphQLISODateTime } from '@nestjs/graphql'
 import { Comment } from '@comments/entities/comment.entity'
+import { User } from '@users/entities/user.entity'
 
 @ObjectType()
 export class Post {
@@ -23,4 +24,7 @@ export class Post {
     description: 'post deleted time',
   })
   deletedAt?: Date
+
+  @Field(() => User, { description: 'Child Comment' })
+  owner: User
 }

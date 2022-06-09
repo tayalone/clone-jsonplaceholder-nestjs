@@ -2,6 +2,14 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Address {
+  """Child Comment"""
+  geo: Geo
+  suite: String!
+  title: String!
+  zipcode: String!
+}
+
 type Comment {
   body: String!
   email: String!
@@ -13,6 +21,12 @@ type Comment {
 
   """Parent's Post id"""
   postId: Int!
+}
+
+type Company {
+  bs: String!
+  catchPhrase: String!
+  name: String!
 }
 
 input CreatePostInput {
@@ -31,6 +45,14 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type Geo {
+  """Latitude Value"""
+  lat: Float!
+
+  """Longtitude Value"""
+  lng: Float!
+}
+
 type Mutation {
   createPost(createPostInput: CreatePostInput!): Post!
   deletePost(id: Int!): String!
@@ -48,6 +70,9 @@ type Post {
 
   """Post Unique Id"""
   id: Int!
+
+  """Child Comment"""
+  owner: User!
   title: String!
 
   """Id of Post Owner"""
@@ -66,4 +91,20 @@ input UpdatePostInput {
 
   """Post Title"""
   title: String!
+}
+
+type User {
+  """User Address"""
+  address: Address
+
+  """User Company"""
+  company: Company
+  email: String!
+
+  """User Unique Id"""
+  id: Int!
+  name: String!
+  phone: String!
+  username: String!
+  website: String!
 }
