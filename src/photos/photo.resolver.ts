@@ -1,24 +1,27 @@
 import {
+  Resolver,
+  Query,
   Args,
   Int,
-  Parent,
-  Query,
   ResolveField,
-  Resolver,
+  Parent,
 } from '@nestjs/graphql'
+import { AlbumsService } from '@albums/albums.service'
+import { Album } from '@albums/entities/album.entity'
 import { UserService } from '@users/users.service'
 import { User } from '@users/entities/user.entity'
-import { Todo } from './entities/todo.entity'
-import { TodosService } from './todos.service'
+import { Photo } from './entities/photo.entity'
+import { PhotosService } from './photos.service'
 
-@Resolver(() => Todo)
-export class TodoResolver {
+@Resolver(() => Photo)
+export class PhotoResolver {
   constructor(
-    private readonly todoService: TodosService,
+    private readonly photoService: PhotosService,
+    private readonly albumService: AlbumsService,
     private readonly userService: UserService,
   ) {}
 
-  @Query(() => [Todo], { name: 'todos' })
+  @Query(() => [Photo], { name: 'photos' })
   findAll(
     @Args('skip', { type: () => Int, defaultValue: undefined, nullable: true })
     skip: number,
@@ -29,7 +32,7 @@ export class TodoResolver {
     @Args('orderBy', { defaultValue: undefined, nullable: true })
     orderBy: string,
   ) {
-    return this.todoService.findAll({
+    return this.photoService.findAll({
       skip,
       take,
       where: where ? JSON.parse(where) : undefined,
@@ -37,14 +40,14 @@ export class TodoResolver {
     })
   }
 
-  @Query(() => Todo, { name: 'todo' })
+  @Query(() => Photo, { name: 'photo' })
   findById(@Args('id', { type: () => Int }) id: number) {
-    return this.todoService.findOne({ id })
+    return this.photoService.findOne({ id })
   }
 
-  @ResolveField('owner', () => User)
-  async owner(@Parent() todo: Todo) {
-    const { userId } = todo
-    return this.userService.findOne({ id: userId })
+  @ResolveField('album', () => Album)
+  async album(@Parent() photo: Photo) {
+    const { albumId } = photo
+    return this.albumService.findOne({ id: albumId })
   }
 }

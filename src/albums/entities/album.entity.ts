@@ -12,6 +12,9 @@ export class Album {
   @Field()
   url: string
 
+  @Field(() => Int, { description: 'Album Owner Id' })
+  userId: number
+
   @Field(() => User, { description: 'Child Comment' })
   owner: User
 }

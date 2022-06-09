@@ -10,13 +10,13 @@ import {
 } from '@nestjs/common'
 import { User } from '@prisma/client'
 import { instanceToPlain } from 'class-transformer'
-import { UsersService } from './users.service'
+import { UserService } from './users.service'
 import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
 
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly usersService: UserService) {}
 
   @Post()
   create(@Body() createUserDto: CreateUserDto): Promise<User> {

@@ -11,7 +11,7 @@ import { HttpException, HttpStatus } from '@nestjs/common'
 import { CommentsService } from '@comments/comments.service'
 import { Comment } from '@comments/entities/comment.entity'
 import { User } from '@users/entities/user.entity'
-import { UsersService } from '@users/users.service'
+import { UserService } from '@users/users.service'
 import { Post } from './entities/post.entity'
 import { PostsService } from './posts.service'
 
@@ -22,7 +22,7 @@ export class PostResolver {
   constructor(
     private readonly postsService: PostsService,
     private readonly commentService: CommentsService,
-    private readonly userService: UsersService,
+    private readonly userService: UserService,
   ) {}
 
   @Query(() => [Post], { name: 'posts' })

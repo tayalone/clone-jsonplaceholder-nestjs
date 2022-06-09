@@ -10,6 +10,19 @@ type Address {
   zipcode: String!
 }
 
+type Album {
+  """Album Unique Id"""
+  id: Int!
+
+  """Child Comment"""
+  owner: User!
+  title: String!
+  url: String!
+
+  """Album Owner Id"""
+  userId: Int!
+}
+
 type Comment {
   body: String!
   email: String!
@@ -59,6 +72,20 @@ type Mutation {
   updatePost(id: Int!, updatePostInput: UpdatePostInput!): Post!
 }
 
+type Photo {
+  """Child Comment"""
+  album: Album!
+
+  """Id of Album"""
+  albumId: Int!
+
+  """Photo Unique Id"""
+  id: Int!
+  thumbnailUrl: String!
+  title: String!
+  url: String!
+}
+
 type Post {
   body: String!
 
@@ -81,6 +108,8 @@ type Post {
 
 type Query {
   comments(postId: Float): [Comment!]!
+  photo(id: Int!): Photo!
+  photos(orderBy: String, skip: Int, take: Int, where: String): [Photo!]!
   post(id: Int!): Post!
   posts(where: String): [Post!]!
   todo(id: Int!): Todo!
