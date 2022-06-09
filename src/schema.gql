@@ -83,6 +83,22 @@ type Query {
   comments(postId: Float): [Comment!]!
   post(id: Int!): Post!
   posts(where: String): [Post!]!
+  todo(id: Int!): Todo!
+  todos(orderBy: String, skip: Int, take: Int, where: String): [Todo!]!
+}
+
+type Todo {
+  completed: Boolean!
+
+  """Todo Unique Id"""
+  id: Int!
+
+  """Child Comment"""
+  owner: User!
+  title: String!
+
+  """Id of Post Owner"""
+  userId: Int!
 }
 
 input UpdatePostInput {

@@ -12,7 +12,7 @@ import { PrismaModule } from './services/prisma/prisma.module'
 import { TodosModule } from './todos/todos.module'
 import { UsersModule } from './users/users.module'
 import { AlbumsModule } from './albums/albums.module'
-import { PhotosModule } from './photos/photos.module';
+import { PhotosModule } from './photos/photos.module'
 
 @Module({
   controllers: [AppController],
