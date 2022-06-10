@@ -5,6 +5,7 @@ import {
   Args,
   ResolveField,
   Parent,
+  Int,
 } from '@nestjs/graphql'
 import { Post } from '@posts/entities/post.entity'
 import { PostsService } from '@posts/posts.service'
@@ -20,10 +21,26 @@ export class CommentResolver {
 
   @Query(() => [Comment], { name: 'comments' })
   findAll(
-    @Args('postId', { defaultValue: undefined, nullable: true })
-    postId?: number,
+    @Args('skip', { type: () => Int, defaultValue: undefined, nullable: true })
+    skip: number,
+    @Args('take', { type: () => Int, defaultValue: undefined, nullable: true })
+    take: number,
+    @Args('where', { defaultValue: undefined, nullable: true })
+    where: string,
+    @Args('orderBy', { defaultValue: undefined, nullable: true })
+    orderBy: string,
   ) {
-    return this.commentService.findAll({ postId, includes: [] })
+    return this.commentService.findAllPost({
+      skip,
+      take,
+      where: where ? JSON.parse(where) : undefined,
+      orderBy: where ? JSON.parse(orderBy) : undefined,
+    })
+  }
+
+  @Query(() => Comment, { name: 'comment' })
+  find(@Args('id', { type: () => Int }) id: number) {
+    return this.commentService.findOne({ id: +id })
   }
 
   @ResolveField('post', () => Post)

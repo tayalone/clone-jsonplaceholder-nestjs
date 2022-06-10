@@ -110,7 +110,8 @@ type Post {
 type Query {
   album(id: Int!): Album!
   albums(orderBy: String, skip: Int, take: Int, where: String): [Album!]!
-  comments(postId: Float): [Comment!]!
+  comment(id: Int!): Comment!
+  comments(orderBy: String, skip: Int, take: Int, where: String): [Comment!]!
   photo(id: Int!): Photo!
   photos(orderBy: String, skip: Int, take: Int, where: String): [Photo!]!
   post(id: Int!): Post!
