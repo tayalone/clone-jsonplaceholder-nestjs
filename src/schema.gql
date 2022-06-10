@@ -16,6 +16,7 @@ type Album {
 
   """Child Comment"""
   owner: User!
+  photos: [Photo!]!
   title: String!
   url: String!
 
@@ -107,6 +108,8 @@ type Post {
 }
 
 type Query {
+  album(id: Int!): Album!
+  albums(orderBy: String, skip: Int, take: Int, where: String): [Album!]!
   comments(postId: Float): [Comment!]!
   photo(id: Int!): Photo!
   photos(orderBy: String, skip: Int, take: Int, where: String): [Photo!]!
@@ -114,6 +117,8 @@ type Query {
   posts(where: String): [Post!]!
   todo(id: Int!): Todo!
   todos(orderBy: String, skip: Int, take: Int, where: String): [Todo!]!
+  user(id: Int!): User!
+  users(orderBy: String, skip: Int, take: Int, where: String): [User!]!
 }
 
 type Todo {
@@ -142,6 +147,9 @@ type User {
   """User Address"""
   address: Address
 
+  """Child Comment"""
+  albums: [Album!]
+
   """User Company"""
   company: Company
   email: String!
@@ -150,6 +158,12 @@ type User {
   id: Int!
   name: String!
   phone: String!
+
+  """Child Comment"""
+  posts: [Post!]
+
+  """Child Comment"""
+  todos: [Todo!]
   username: String!
   website: String!
 }
