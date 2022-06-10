@@ -9,7 +9,6 @@ import {
 import { AlbumsService } from '@albums/albums.service'
 import { Album } from '@albums/entities/album.entity'
 import { UserService } from '@users/users.service'
-import { User } from '@users/entities/user.entity'
 import { Photo } from './entities/photo.entity'
 import { PhotosService } from './photos.service'
 
