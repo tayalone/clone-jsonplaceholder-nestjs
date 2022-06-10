@@ -86,7 +86,7 @@ export class CommentsService {
     })
   }
 
-  findAllPost(params: {
+  findAllComment(params: {
     skip?: number
     take?: number
     cursor?: Prisma.CommentWhereUniqueInput

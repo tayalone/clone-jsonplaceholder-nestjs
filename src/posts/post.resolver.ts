@@ -41,9 +41,26 @@ export class PostResolver {
   }
 
   @ResolveField('comments', () => [Comment])
-  async comments(@Parent() post: Post) {
+  async comments(
+    @Parent() post: Post,
+    @Args('skip', { type: () => Int, defaultValue: undefined, nullable: true })
+    skip: number,
+    @Args('take', { type: () => Int, defaultValue: undefined, nullable: true })
+    take: number,
+    @Args('where', { defaultValue: undefined, nullable: true })
+    where: string,
+    @Args('orderBy', { defaultValue: undefined, nullable: true })
+    orderBy: string,
+  ) {
     const { id } = post
-    return this.commentService.findAll({ postId: id, includes: [] })
+    const tmpWhere = where ? JSON.parse(where) : {}
+
+    return this.commentService.findAllComment({
+      skip,
+      take,
+      where: { ...tmpWhere, postId: id },
+      orderBy: where ? JSON.parse(orderBy) : undefined,
+    })
   }
 
   @Mutation(() => Post)

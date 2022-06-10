@@ -52,8 +52,25 @@ export class AlbumResolver {
   }
 
   @ResolveField('photos', () => [Photo])
-  async photos(@Parent() album: Album) {
+  async photos(
+    @Parent() album: Album,
+    @Args('skip', { type: () => Int, defaultValue: undefined, nullable: true })
+    skip: number,
+    @Args('take', { type: () => Int, defaultValue: undefined, nullable: true })
+    take: number,
+    @Args('where', { defaultValue: undefined, nullable: true })
+    where: string,
+    @Args('orderBy', { defaultValue: undefined, nullable: true })
+    orderBy: string,
+  ) {
     const { id } = album
-    return this.photoService.findAll({ where: { albumId: id } })
+    const tmpWhere = where ? JSON.parse(where) : {}
+
+    return this.photoService.findAll({
+      skip,
+      take,
+      where: { ...tmpWhere, albumId: id },
+      orderBy: where ? JSON.parse(orderBy) : undefined,
+    })
   }
 }

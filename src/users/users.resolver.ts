@@ -49,20 +49,69 @@ export class UserResolver {
   }
 
   @ResolveField('albums', () => [Album])
-  async albums(@Parent() user: User) {
+  async albums(
+    @Parent() user: User,
+    @Args('skip', { type: () => Int, defaultValue: undefined, nullable: true })
+    skip: number,
+    @Args('take', { type: () => Int, defaultValue: undefined, nullable: true })
+    take: number,
+    @Args('where', { defaultValue: undefined, nullable: true })
+    where: string,
+    @Args('orderBy', { defaultValue: undefined, nullable: true })
+    orderBy: string,
+  ) {
     const { id } = user
-    return this.albumsService.findAll({ where: { userId: id } })
+    const tmpWhere = where ? JSON.parse(where) : {}
+
+    return this.albumsService.findAll({
+      skip,
+      take,
+      where: { ...tmpWhere, userId: id },
+      orderBy: where ? JSON.parse(orderBy) : undefined,
+    })
   }
 
   @ResolveField('posts', () => [Post])
-  async posts(@Parent() user: User) {
+  async posts(
+    @Parent() user: User,
+    @Args('skip', { type: () => Int, defaultValue: undefined, nullable: true })
+    skip: number,
+    @Args('take', { type: () => Int, defaultValue: undefined, nullable: true })
+    take: number,
+    @Args('where', { defaultValue: undefined, nullable: true })
+    where: string,
+    @Args('orderBy', { defaultValue: undefined, nullable: true })
+    orderBy: string,
+  ) {
     const { id } = user
-    return this.postService.findAllPosts({ where: { userId: id } })
+    const tmpWhere = where ? JSON.parse(where) : {}
+    return this.postService.findAllPosts({
+      skip,
+      take,
+      where: { ...tmpWhere, userId: id },
+      orderBy: where ? JSON.parse(orderBy) : undefined,
+    })
   }
 
   @ResolveField('todos', () => [Todo])
-  async todos(@Parent() user: User) {
+  async todos(
+    @Parent() user: User,
+    @Args('skip', { type: () => Int, defaultValue: undefined, nullable: true })
+    skip: number,
+    @Args('take', { type: () => Int, defaultValue: undefined, nullable: true })
+    take: number,
+    @Args('where', { defaultValue: undefined, nullable: true })
+    where: string,
+    @Args('orderBy', { defaultValue: undefined, nullable: true })
+    orderBy: string,
+  ) {
     const { id } = user
-    return this.todoService.findAll({ where: { userId: id } })
+    const tmpWhere = where ? JSON.parse(where) : {}
+    return this.todoService.findAll({
+      skip,
+      take,
+      where: { ...tmpWhere, userId: id },
+      orderBy: where ? JSON.parse(orderBy) : undefined,
+    })
   }
 }
