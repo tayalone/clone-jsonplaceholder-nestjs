@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from '@services/prisma/prisma.service'
-import { Comment } from './interfaces/comments.interfaces'
+import { Comment, Prisma } from '@prisma/client'
+import { Comment as CommnentInterface } from './interfaces/comments.interfaces'
 import { Include } from './interfaces/include.interfaces'
 
 interface SelectInterface {
@@ -61,7 +62,7 @@ export class CommentsService {
   }: {
     postId?: number
     includes?: string[]
-  }): Promise<Comment[]> {
+  }): Promise<CommnentInterface[]> {
     const where: any = {}
 
     if (postId) {
@@ -83,6 +84,40 @@ export class CommentsService {
       select,
       where: { ...EXISITNG_COND, ...where },
     })
+  }
+
+  findAllPost(params: {
+    skip?: number
+    take?: number
+    cursor?: Prisma.CommentWhereUniqueInput
+    where?: Prisma.CommentWhereInput
+    orderBy?: Prisma.CommentOrderByWithRelationInput
+  }): Promise<Comment[]> {
+    return this.prisma.comment.findMany({ ...params })
+  }
+
+  findOne(where: Prisma.CommentWhereUniqueInput): Promise<Comment> {
+    return this.prisma.comment.findUnique({ where })
+  }
+
+  async update(params: {
+    where: Prisma.AlbumWhereUniqueInput
+    data: Prisma.AlbumUncheckedUpdateInput
+  }): Promise<Comment | any> {
+    const result = await this.prisma.comment.update({ ...params })
+    if (result) {
+      return result
+    }
+    return {}
+  }
+
+  async remove(where: Prisma.AlbumWhereUniqueInput): Promise<boolean> {
+    try {
+      await this.prisma.comment.delete({ where })
+      return true
+    } catch (_) {
+      return false
+    }
   }
 
   async deleteCommentByPostId({ postId }: { postId: number }): Promise<number> {
