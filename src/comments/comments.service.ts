@@ -100,9 +100,13 @@ export class CommentsService {
     return this.prisma.comment.findUnique({ where })
   }
 
+  create(data: Prisma.CommentUncheckedCreateInput): Promise<Comment> {
+    return this.prisma.comment.create({ data: { ...data, deletedAt: null } })
+  }
+
   async update(params: {
-    where: Prisma.AlbumWhereUniqueInput
-    data: Prisma.AlbumUncheckedUpdateInput
+    where: Prisma.CommentWhereUniqueInput
+    data: Prisma.CommentUncheckedUpdateInput
   }): Promise<Comment | any> {
     const result = await this.prisma.comment.update({ ...params })
     if (result) {

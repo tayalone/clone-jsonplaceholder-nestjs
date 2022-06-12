@@ -6,11 +6,15 @@ import {
   ResolveField,
   Parent,
   Int,
+  Mutation,
 } from '@nestjs/graphql'
 import { Post } from '@posts/entities/post.entity'
 import { PostsService } from '@posts/posts.service'
+import { HttpException, HttpStatus } from '@nestjs/common'
 import { CommentsService } from './comments.service'
 import { Comment } from './entities/comment.entity'
+import { CreateCommentInput } from './dto/graphql/create-comment.input'
+import { UpdateCommentInput } from './dto/graphql/update-comment.input'
 
 @Resolver(() => Comment)
 export class CommentResolver {
@@ -48,5 +52,32 @@ export class CommentResolver {
     const { postId } = comment
     const result = await this.postsService.findById(postId, [])
     return result || null
+  }
+
+  @Mutation(() => Comment)
+  createComment(
+    @Args('createCommentInput') createCommentInput: CreateCommentInput,
+  ) {
+    return this.commentService.create(createCommentInput)
+  }
+
+  @Mutation(() => Comment)
+  updateComment(
+    @Args('id', { type: () => Int }) id: number,
+    @Args('updateCommentInput') updateCommentInput: UpdateCommentInput,
+  ) {
+    return this.commentService.update({
+      where: { id },
+      data: { ...updateCommentInput },
+    })
+  }
+
+  @Mutation(() => String)
+  async deleteComment(@Args('id', { type: () => Int }) id: number) {
+    const deletedResult = await this.commentService.remove({ id })
+    if (!deletedResult) {
+      throw new HttpException('Record Not Found', HttpStatus.NOT_FOUND)
+    }
+    return `deleted`
   }
 }

@@ -98,6 +98,7 @@ type Geo {
 
 type Mutation {
   createAlbum(createAlbumInput: CreateAlbumInput!): Album!
+  createComment: Comment!
   createPhoto(createPhotoInput: CreatePhotoInput!): Photo!
   createPost(createPostInput: CreatePostInput!): Post!
   createTodo(createTodoInput: CreateTodoInput!): Todo!
