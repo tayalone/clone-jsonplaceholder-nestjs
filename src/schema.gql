@@ -51,6 +51,16 @@ input CreateAlbumInput {
   userId: Int!
 }
 
+input CreatePhotoInput {
+  """Album Id"""
+  albumId: Int!
+  thumbnailUrl: String!
+
+  """Post Title"""
+  title: String!
+  url: String!
+}
+
 input CreatePostInput {
   """Post Body"""
   body: String!
@@ -88,12 +98,15 @@ type Geo {
 
 type Mutation {
   createAlbum(createAlbumInput: CreateAlbumInput!): Album!
+  createPhoto(createPhotoInput: CreatePhotoInput!): Photo!
   createPost(createPostInput: CreatePostInput!): Post!
   createTodo(createTodoInput: CreateTodoInput!): Todo!
   deleteAlbum(id: Int!): String!
+  deletePhoto(id: Int!): Photo!
   deletePost(id: Int!): String!
   deleteTodo(id: Int!): String!
   updateAlbum(id: Int!, updateAlbumInput: UpdateAlbumInput!): Album!
+  updatePhoto(id: Int!, updatePhotoInput: UpdatePhotoInput!): Photo!
   updatePost(id: Int!, updatePostInput: UpdatePostInput!): Post!
   updateTodo(id: Int!, updateTodoInput: UpdateTodoInput!): Todo!
 }
@@ -164,6 +177,14 @@ type Todo {
 input UpdateAlbumInput {
   """Post Title"""
   title: String!
+}
+
+input UpdatePhotoInput {
+  thumbnailUrl: String!
+
+  """Post Title"""
+  title: String!
+  url: String!
 }
 
 input UpdatePostInput {

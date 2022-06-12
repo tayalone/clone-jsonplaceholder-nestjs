@@ -5,12 +5,16 @@ import {
   Int,
   ResolveField,
   Parent,
+  Mutation,
 } from '@nestjs/graphql'
 import { AlbumsService } from '@albums/albums.service'
 import { Album } from '@albums/entities/album.entity'
 import { UserService } from '@users/users.service'
+import { HttpException, HttpStatus } from '@nestjs/common'
 import { Photo } from './entities/photo.entity'
 import { PhotosService } from './photos.service'
+import { CreatePhotoInput } from './dto/graphql/create-photo.input'
+import { UpdatePhotoInput } from './dto/graphql/update-photo.input'
 
 @Resolver(() => Photo)
 export class PhotoResolver {
@@ -48,5 +52,30 @@ export class PhotoResolver {
   async album(@Parent() photo: Photo) {
     const { albumId } = photo
     return this.albumService.findOne({ id: albumId })
+  }
+
+  @Mutation(() => Photo)
+  createPhoto(@Args('createPhotoInput') createPhotoInput: CreatePhotoInput) {
+    return this.photoService.create({ ...createPhotoInput })
+  }
+
+  @Mutation(() => Photo)
+  updatePhoto(
+    @Args('id', { type: () => Int }) id: number,
+    @Args('updatePhotoInput') updatePhotoInput: UpdatePhotoInput,
+  ) {
+    return this.photoService.update({
+      where: { id },
+      data: { ...updatePhotoInput },
+    })
+  }
+
+  @Mutation(() => Photo)
+  async deletePhoto(@Args('id', { type: () => Int }) id: number) {
+    const deletedResult = await this.photoService.remove({ id })
+    if (!deletedResult) {
+      throw new HttpException('Record Not Found', HttpStatus.NOT_FOUND)
+    }
+    return `deleted`
   }
 }
