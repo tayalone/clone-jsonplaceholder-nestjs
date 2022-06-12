@@ -1,6 +1,6 @@
 import { IsNotEmpty, IsInt, MinLength, IsBoolean } from 'class-validator'
 
-export class CreateTodoInput {
+export class CreateTodoDto {
   @IsNotEmpty()
   @IsInt()
   userId: number

@@ -12,7 +12,7 @@ import { User } from '@users/entities/user.entity'
 import { HttpException, HttpStatus } from '@nestjs/common'
 import { Todo } from './entities/todo.entity'
 import { TodosService } from './todos.service'
-import { CreateTodoInput } from './dto/create-todo.dto'
+import { CreateTodoInput } from './dto/graphql/create-todo.input'
 import { UpdateTodoInput } from './dto/graphql/update-todo.input'
 
 @Resolver(() => Todo)

@@ -54,6 +54,17 @@ input CreatePostInput {
   userId: Int!
 }
 
+input CreateTodoInput {
+  """complete status"""
+  completed: Boolean!
+
+  """Todos Title"""
+  title: String!
+
+  """User Id"""
+  userId: Int!
+}
+
 """
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
@@ -69,8 +80,11 @@ type Geo {
 
 type Mutation {
   createPost(createPostInput: CreatePostInput!): Post!
+  createTodos(createTodoInput: CreateTodoInput!): Todo!
   deletePost(id: Int!): String!
+  deleteTodo(id: Int!): String!
   updatePost(id: Int!, updatePostInput: UpdatePostInput!): Post!
+  updateTodos(id: Int!, updateTodoInput: UpdateTodoInput!): Todo!
 }
 
 type Photo {
@@ -141,6 +155,14 @@ input UpdatePostInput {
   body: String!
 
   """Post Title"""
+  title: String!
+}
+
+input UpdateTodoInput {
+  """complete status"""
+  completed: Boolean!
+
+  """Todos Title"""
   title: String!
 }
 
