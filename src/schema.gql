@@ -43,6 +43,14 @@ type Company {
   name: String!
 }
 
+input CreateAlbumInput {
+  """Post Title"""
+  title: String!
+
+  """User Id"""
+  userId: Int!
+}
+
 input CreatePostInput {
   """Post Body"""
   body: String!
@@ -79,12 +87,15 @@ type Geo {
 }
 
 type Mutation {
+  createAlbum(createAlbumInput: CreateAlbumInput!): Album!
   createPost(createPostInput: CreatePostInput!): Post!
-  createTodos(createTodoInput: CreateTodoInput!): Todo!
+  createTodo(createTodoInput: CreateTodoInput!): Todo!
+  deleteAlbum(id: Int!): String!
   deletePost(id: Int!): String!
   deleteTodo(id: Int!): String!
+  updateAlbum(id: Int!, updateAlbumInput: UpdateAlbumInput!): Album!
   updatePost(id: Int!, updatePostInput: UpdatePostInput!): Post!
-  updateTodos(id: Int!, updateTodoInput: UpdateTodoInput!): Todo!
+  updateTodo(id: Int!, updateTodoInput: UpdateTodoInput!): Todo!
 }
 
 type Photo {
@@ -148,6 +159,11 @@ type Todo {
 
   """Id of Post Owner"""
   userId: Int!
+}
+
+input UpdateAlbumInput {
+  """Post Title"""
+  title: String!
 }
 
 input UpdatePostInput {

@@ -1,6 +1,7 @@
 import {
   Args,
   Int,
+  Mutation,
   Parent,
   Query,
   ResolveField,
@@ -10,8 +11,11 @@ import { PhotosService } from '@photos/photos.service'
 import { UserService } from '@users/users.service'
 import { User } from '@users/entities//user.entity'
 import { Photo } from '@photos/entities/photo.entity'
+import { HttpException, HttpStatus } from '@nestjs/common'
 import { Album } from './entities/album.entity'
 import { AlbumsService } from './albums.service'
+import { CreateAlbumInput } from './dto/graphql/create-album.input'
+import { UpdateAlbumInput } from './dto/graphql/update-album.input'
 
 @Resolver(() => Album)
 export class AlbumResolver {
@@ -72,5 +76,30 @@ export class AlbumResolver {
       where: { ...tmpWhere, albumId: id },
       orderBy: where ? JSON.parse(orderBy) : undefined,
     })
+  }
+
+  @Mutation(() => Album)
+  createAlbum(@Args('createAlbumInput') createAlbumInput: CreateAlbumInput) {
+    return this.albumService.create({ ...createAlbumInput })
+  }
+
+  @Mutation(() => Album)
+  updateAlbum(
+    @Args('id', { type: () => Int }) id: number,
+    @Args('updateAlbumInput') updateAlbumInput: UpdateAlbumInput,
+  ) {
+    return this.albumService.update({
+      where: { id },
+      data: { ...updateAlbumInput },
+    })
+  }
+
+  @Mutation(() => String)
+  async deleteAlbum(@Args('id', { type: () => Int }) id: number) {
+    const deletedResult = await this.albumService.remove({ id })
+    if (!deletedResult) {
+      throw new HttpException('Record Not Found', HttpStatus.NOT_FOUND)
+    }
+    return `deleted`
   }
 }

@@ -53,12 +53,12 @@ export class TodoResolver {
   }
 
   @Mutation(() => Todo)
-  createTodos(@Args('createTodoInput') createTodoInput: CreateTodoInput) {
+  createTodo(@Args('createTodoInput') createTodoInput: CreateTodoInput) {
     return this.todoService.create({ ...createTodoInput })
   }
 
   @Mutation(() => Todo)
-  updateTodos(
+  updateTodo(
     @Args('id', { type: () => Int }) id: number,
     @Args('updateTodoInput') updateTodoInput: UpdateTodoInput,
   ) {
