@@ -30,7 +30,7 @@ export class CommentResolver {
     @Args('orderBy', { defaultValue: undefined, nullable: true })
     orderBy: string,
   ) {
-    return this.commentService.findAllPost({
+    return this.commentService.findAllComment({
       skip,
       take,
       where: where ? JSON.parse(where) : undefined,

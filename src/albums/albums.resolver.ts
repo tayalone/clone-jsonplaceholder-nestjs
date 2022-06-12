@@ -36,7 +36,7 @@ export class AlbumResolver {
       skip,
       take,
       where: where ? JSON.parse(where) : undefined,
-      orderBy: where ? JSON.parse(orderBy) : undefined,
+      orderBy: orderBy ? JSON.parse(orderBy) : undefined,
     })
   }
 

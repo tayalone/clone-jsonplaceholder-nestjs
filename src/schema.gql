@@ -16,7 +16,7 @@ type Album {
 
   """Child Comment"""
   owner: User!
-  photos: [Photo!]!
+  photos(orderBy: String, skip: Int, take: Int, where: String): [Photo!]!
   title: String!
   url: String!
 
@@ -91,7 +91,7 @@ type Post {
   body: String!
 
   """Child Comment"""
-  comments: [Comment!]
+  comments(orderBy: String, skip: Int, take: Int, where: String): [Comment!]
 
   """post deleted time"""
   deletedAt: DateTime
@@ -149,7 +149,7 @@ type User {
   address: Address
 
   """Child Comment"""
-  albums: [Album!]
+  albums(orderBy: String, skip: Int, take: Int, where: String): [Album!]
 
   """User Company"""
   company: Company
@@ -161,10 +161,10 @@ type User {
   phone: String!
 
   """Child Comment"""
-  posts: [Post!]
+  posts(orderBy: String, skip: Int, take: Int, where: String): [Post!]
 
   """Child Comment"""
-  todos: [Todo!]
+  todos(orderBy: String, skip: Int, take: Int, where: String): [Todo!]
   username: String!
   website: String!
 }
