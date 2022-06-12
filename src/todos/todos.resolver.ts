@@ -1,6 +1,7 @@
 import {
   Args,
   Int,
+  Mutation,
   Parent,
   Query,
   ResolveField,
@@ -8,8 +9,11 @@ import {
 } from '@nestjs/graphql'
 import { UserService } from '@users/users.service'
 import { User } from '@users/entities/user.entity'
+import { HttpException, HttpStatus } from '@nestjs/common'
 import { Todo } from './entities/todo.entity'
 import { TodosService } from './todos.service'
+import { CreateTodoInput } from './dto/create-todo.dto'
+import { UpdateTodoInput } from './dto/graphql/update-todo.input'
 
 @Resolver(() => Todo)
 export class TodoResolver {
@@ -46,5 +50,27 @@ export class TodoResolver {
   async owner(@Parent() todo: Todo) {
     const { userId } = todo
     return this.userService.findOne({ id: userId })
+  }
+
+  @Mutation(() => Todo)
+  createTodos(@Args('createTodoInput') createTodoInput: CreateTodoInput) {
+    return this.todoService.create({ ...createTodoInput })
+  }
+
+  @Mutation(() => Todo)
+  updateTodos(
+    @Args('id', { type: () => Int }) id: number,
+    @Args('updateTodoInput') updateTodoInput: UpdateTodoInput,
+  ) {
+    return this.todoService.update({ where: { id }, data: updateTodoInput })
+  }
+
+  @Mutation(() => String)
+  async deleteTodo(@Args('id', { type: () => Int }) id: number) {
+    const deletedResult = await this.todoService.remove({ id })
+    if (!deletedResult) {
+      throw new HttpException('Record Not Found', HttpStatus.NOT_FOUND)
+    }
+    return `deleted`
   }
 }
