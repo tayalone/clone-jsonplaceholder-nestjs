@@ -7,15 +7,18 @@ export class CreateCommentInput {
   @IsInt()
   postId: number
 
+  @Field()
   @IsString()
   @MinLength(5, {
     message: 'Body is too short',
   })
   body: string
 
+  @Field()
   @IsString()
   name: string
 
+  @Field()
   @IsString()
   @IsEmail()
   email: string

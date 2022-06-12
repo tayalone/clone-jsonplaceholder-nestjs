@@ -5,6 +5,7 @@ import {
   Query,
   ResolveField,
   Resolver,
+  Mutation,
 } from '@nestjs/graphql'
 import { AlbumsService } from '@albums/albums.service'
 import { Album } from '@albums/entities/album.entity'
@@ -12,8 +13,12 @@ import { PostsService } from '@posts/posts.service'
 import { Post } from '@posts/entities/post.entity'
 import { TodosService } from '@todos/todos.service'
 import { Todo } from '@todos/entities/todo.entity'
+import { instanceToPlain } from 'class-transformer'
 import { UserService } from './users.service'
 import { User } from './entities/user.entity'
+
+import { CreateUserInput } from './dto/graphql/create-user.input'
+import { UpdateUserInput } from './dto/graphql/update-user.input'
 
 @Resolver(() => User)
 export class UserResolver {
@@ -112,6 +117,37 @@ export class UserResolver {
       take,
       where: { ...tmpWhere, userId: id },
       orderBy: where ? JSON.parse(orderBy) : undefined,
+    })
+  }
+
+  @Mutation(() => User)
+  createUser(@Args('createUserInput') createUserInput: CreateUserInput) {
+    const data = {
+      ...createUserInput,
+      address: instanceToPlain(createUserInput.address),
+      company: instanceToPlain(createUserInput.company),
+    }
+    return this.userService.create(data)
+  }
+
+  @Mutation(() => User)
+  updateUser(
+    @Args('id', { type: () => Int }) id: number,
+    @Args('updateUserInput') updateUserInput: UpdateUserInput,
+  ) {
+    const data = {
+      ...updateUserInput,
+      address: updateUserInput.address
+        ? instanceToPlain(updateUserInput.address)
+        : undefined,
+      company: updateUserInput.company
+        ? instanceToPlain(updateUserInput.company)
+        : undefined,
+    }
+
+    return this.userService.update({
+      where: { id },
+      data,
     })
   }
 }

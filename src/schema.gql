@@ -51,6 +51,15 @@ input CreateAlbumInput {
   userId: Int!
 }
 
+input CreateCommentInput {
+  body: String!
+  email: String!
+  name: String!
+
+  """Post Id"""
+  postId: Int!
+}
+
 input CreatePhotoInput {
   """Album Id"""
   albumId: Int!
@@ -83,6 +92,16 @@ input CreateTodoInput {
   userId: Int!
 }
 
+input CreateUserInput {
+  address: UserAddressInput!
+  company: UserCompayInput!
+  email: String!
+  name: String!
+  phone: String!
+  username: String!
+  website: String!
+}
+
 """
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
@@ -98,18 +117,22 @@ type Geo {
 
 type Mutation {
   createAlbum(createAlbumInput: CreateAlbumInput!): Album!
-  createComment: Comment!
+  createComment(createCommentInput: CreateCommentInput!): Comment!
   createPhoto(createPhotoInput: CreatePhotoInput!): Photo!
   createPost(createPostInput: CreatePostInput!): Post!
   createTodo(createTodoInput: CreateTodoInput!): Todo!
+  createUser(createUserInput: CreateUserInput!): User!
   deleteAlbum(id: Int!): String!
+  deleteComment(id: Int!): String!
   deletePhoto(id: Int!): Photo!
   deletePost(id: Int!): String!
   deleteTodo(id: Int!): String!
   updateAlbum(id: Int!, updateAlbumInput: UpdateAlbumInput!): Album!
+  updateComment(id: Int!, updateCommentInput: UpdateCommentInput!): Comment!
   updatePhoto(id: Int!, updatePhotoInput: UpdatePhotoInput!): Photo!
   updatePost(id: Int!, updatePostInput: UpdatePostInput!): Post!
   updateTodo(id: Int!, updateTodoInput: UpdateTodoInput!): Todo!
+  updateUser(id: Int!, updateUserInput: UpdateUserInput!): User!
 }
 
 type Photo {
@@ -180,6 +203,12 @@ input UpdateAlbumInput {
   title: String!
 }
 
+input UpdateCommentInput {
+  body: String!
+  email: String!
+  name: String!
+}
+
 input UpdatePhotoInput {
   thumbnailUrl: String!
 
@@ -202,6 +231,14 @@ input UpdateTodoInput {
 
   """Todos Title"""
   title: String!
+}
+
+input UpdateUserInput {
+  address: UserAddressInput!
+  company: UserCompayInput!
+  name: String!
+  phone: String!
+  website: String!
 }
 
 type User {
@@ -227,4 +264,25 @@ type User {
   todos(orderBy: String, skip: Int, take: Int, where: String): [Todo!]
   username: String!
   website: String!
+}
+
+input UserAddressInput {
+  geo: UserGeoInput!
+  street: String!
+  suite: String!
+  zipcode: String!
+}
+
+input UserCompayInput {
+  bs: String!
+  catchPhrase: String!
+  name: String!
+}
+
+input UserGeoInput {
+  """Latitude"""
+  lat: Int!
+
+  """Longtitude"""
+  lng: Int!
 }
