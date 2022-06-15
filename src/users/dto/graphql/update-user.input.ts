@@ -13,7 +13,7 @@ import { UserCompayInput } from './user-company.input'
 
 @InputType()
 export class UpdateUserInput {
-  @Field()
+  @Field({ nullable: true })
   @IsOptional()
   @IsString()
   @MinLength(5, {
@@ -21,25 +21,25 @@ export class UpdateUserInput {
   })
   name?: string
 
-  @Field()
+  @Field({ nullable: true })
   @IsOptional()
   @IsObject()
   @ValidateNested()
   @Type(() => UserAddressInput)
   address?: UserAddressInput
 
-  @Field()
+  @Field({ nullable: true })
   @IsOptional()
   @IsString()
   phone?: string
 
-  @Field()
+  @Field({ nullable: true })
   @IsOptional()
   @IsString()
   @IsUrl()
   website?: string
 
-  @Field()
+  @Field({ nullable: true })
   @IsOptional()
   @IsObject()
   @ValidateNested()

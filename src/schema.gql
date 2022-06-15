@@ -188,7 +188,7 @@ type Todo {
   completed: Boolean!
 
   """Todo Unique Id"""
-  id: Int!
+  id: ID!
 
   """Child Comment"""
   owner: User!
@@ -234,11 +234,11 @@ input UpdateTodoInput {
 }
 
 input UpdateUserInput {
-  address: UserAddressInput!
-  company: UserCompayInput!
-  name: String!
-  phone: String!
-  website: String!
+  address: UserAddressInput
+  company: UserCompayInput
+  name: String
+  phone: String
+  website: String
 }
 
 type User {

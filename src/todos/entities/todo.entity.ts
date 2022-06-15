@@ -1,9 +1,9 @@
-import { Field, Int, ObjectType } from '@nestjs/graphql'
+import { Field, Int, ObjectType, ID } from '@nestjs/graphql'
 import { User } from '@users/entities/user.entity'
 
 @ObjectType()
 export class Todo {
-  @Field(() => Int, { description: 'Todo Unique Id' })
+  @Field(() => ID, { description: 'Todo Unique Id' })
   id: number
 
   @Field()
