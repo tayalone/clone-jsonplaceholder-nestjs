@@ -13,6 +13,7 @@ import { TodosModule } from './todos/todos.module'
 import { UsersModule } from './users/users.module'
 import { AlbumsModule } from './albums/albums.module'
 import { PhotosModule } from './photos/photos.module'
+import { MaxotyModule } from './maxoty/maxoty.module';
 
 @Module({
   controllers: [AppController],
@@ -37,6 +38,7 @@ import { PhotosModule } from './photos/photos.module'
     UsersModule,
     AlbumsModule,
     PhotosModule,
+    MaxotyModule,
   ],
 })
 export class AppModule {}
